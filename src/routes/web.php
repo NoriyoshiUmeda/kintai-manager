@@ -65,17 +65,11 @@ Route::middleware(['auth'])->group(function () {
 
 
     // ─── 勤怠一覧画面 ────────────────────────────────────
-    //  画面名称：勤怠一覧画面（一般ユーザー）
-    //  パス：GET /attendances 【※仕様書では /attendances/create となっていますが、
-    //             一覧と打刻は別画面と想定 → /attendances に index を割り当てます】
     Route::get('/attendances', [AttendanceController::class, 'index'])
          ->name('attendances.index');
 
 
     // ─── 勤怠詳細画面 ────────────────────────────────────
-    //  画面名称：勤怠詳細画面（一般ユーザー）
-    //  パス：GET   /attendances/{attendance} → AttendanceController@show
-    //        PATCH /attendances/{attendance} → AttendanceController@update
     Route::get('/attendances/{attendance}', [AttendanceController::class, 'show'])
          ->name('attendances.show');
 

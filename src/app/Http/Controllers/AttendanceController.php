@@ -168,4 +168,17 @@ class AttendanceController extends Controller
     ]);
     }
 
+    public function show(Attendance $attendance)
+    {
+        // ログインユーザーと異なる勤怠は閲覧不可
+        if ($attendance->user_id !== Auth::id()) {
+            abort(404);
+        }
+
+        // ビューには $attendance（とリレーションの $attendance->breaks）が渡る
+        return view('attendances.show', [
+            'attendance' => $attendance,
+        ]);
+    }
+
 }

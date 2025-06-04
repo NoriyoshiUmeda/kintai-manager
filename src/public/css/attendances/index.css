@@ -41,8 +41,8 @@ button {
 2. コンテナ & レイアウト
 --------------------------------------------------------------*/
 .container {
-  width: 100%;
-  max-width: 900px;
+  width: 900px;
+  max-width: 1506px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
@@ -65,9 +65,9 @@ button {
 }
 
 .attendance-title-text {
-  font-size: 1.5rem; /* 24px */
+  font-size: 30px; 
   font-weight: 700;
-  color: #222;
+  color: #000000;
 }
 
 /*--------------------------------------------------------------
@@ -78,28 +78,36 @@ button {
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 0.75rem 1rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e5e5;
+}
+
+.month-nav-arrow-img {
+  width: 20px;        /* 矢印の幅 */
+  height: 15px;       /* 矢印の高さ */
+  margin: 0 0.25rem;  /* 矢印と前月/翌月テキストの間隔 */
+  vertical-align: middle;
 }
 
 .month-nav-link {
   display: inline-flex;
   align-items: center;
-  color: #555;
-  font-size: 0.95rem;
-  transition: color 0.2s;
+  color: #737373;
+  font-size: 16px;
+  font-weight: 700;
 }
 
-.month-nav-link:hover {
-  color: #000;
-}
+.month-nav-calendar-img {
+    width: 20px;       /* アイコンの横幅 */
+    height: 20px;      /* アイコンの高さ */
+    margin-right: 0.5rem; /* アイコンとテキストの間隔 */
+    vertical-align: middle; /* テキストと同じ行で中央に揃える */
+  }
 
 .month-nav-icon {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   stroke: currentColor;
   stroke-width: 2;
   fill: none;
@@ -114,9 +122,9 @@ button {
 .month-nav-current {
   display: inline-flex;
   align-items: center;
-  font-size: 1.1rem; /* 18px */
-  font-weight: 500;
-  color: #444;
+  font-size: 20px; 
+  font-weight: 700;
+  color: #000000;
 }
 
 .month-nav-calendar {
@@ -134,10 +142,8 @@ button {
 .table-card {
   width: 100%;
   background-color: #fff;
-  border-radius: 8px;
-  overflow-x: auto; /* 横スクロール対応 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  overflow-x: auto; 
 }
 
 /*--------------------------------------------------------------
@@ -150,22 +156,37 @@ button {
 
 /* ヘッダー行 */
 .attendance-table thead {
-  background-color: #fafafa;
+  background-color: #ffffff;
 }
 
 /* th, td の基本設定 */
 .attendance-table th,
 .attendance-table td {
   padding: 0.75rem 0.5rem;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 2px solid #e1e1e1;
   text-align: center;
-  font-size: 0.95rem;
-  color: #555;
+  font-size: 16px;
+  font-weight: 700;
+  color: #737373;
+  letter-spacing: 0.15em;
 }
 
+.attendance-table thead th {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 3px solid #e1e1e1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #737373;
+  letter-spacing: 0.15em;
+}
+
+
 .attendance-table th {
-  font-weight: 600;
-  color: #222;
+  font-size: 16px;
+  font-weight: 700;
+  color: #737373;
+  letter-spacing: 0.15em;
 }
 
 /* 日付列（左寄せ＆余白調整） */
@@ -173,6 +194,7 @@ button {
 .attendance-table td:first-child {
   text-align: left;
   padding-left: 1rem;
+  letter-spacing: 0.15em;
 }
 
 /* 詳細列も右余白を少し */
@@ -186,78 +208,108 @@ button {
   background-color: #f7f7f7;
 }
 
-/* 未打刻（日付はあってもレコードが無い）のセルを薄グレーに */
-.attendance-table td:empty {
-  color: #aaa;
+.attendance-table tr.no-record td {
+  border: none;       /* セルのボーダーを消す */
+  background: none;   /* 背景色も透過 */
+  color: transparent; /* もし文字が残っていれば見えなくする */
+  padding: 0;         /* 必要に応じて余白も消す */
 }
 
 /* 詳細リンク */
 .attendance-link {
-  color: #1a73e8;
-  font-weight: 500;
+  color: #000000;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.15em;
   transition: color 0.2s;
 }
 
-.attendance-link:hover {
-  color: #1558b0;
-}
 
-/*--------------------------------------------------------------
-7. レスポンシブ対応
---------------------------------------------------------------*/
-@media (max-width: 768px) {
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1300px;
+    padding: 2.5rem 1.5rem;
+  }
+
   .attendance-title-text {
-    font-size: 1.25rem; /* 20px */
+    font-size: 36px;
   }
-  .month-nav {
-    padding: 0.5rem 0.75rem;
+
+  .month-nav-link {
+    font-size: 18px;
   }
+
+  .month-nav-arrow-img {
+    width: 24px;
+    height: 18px;
+    margin: 0 0.5rem;
+  }
+
   .month-nav-current {
-    font-size: 1rem;
+    font-size: 24px;
   }
+
+  .month-nav-calendar-img {
+    width: 24px;
+    height: 24px;
+    margin-right: 0.75rem;
+  }
+
   .attendance-table th,
   .attendance-table td {
-    font-size: 0.85rem;
-    padding: 0.5rem 0.25rem;
+    padding: 1rem 0.75rem;
+    font-size: 18px;
   }
-  .attendance-table th:first-child,
-  .attendance-table td:first-child {
-    padding-left: 0.75rem;
-  }
-  .attendance-table th:last-child,
-  .attendance-table td:last-child {
-    padding-right: 0.75rem;
+
+  .attendance-link {
+    font-size: 18px;
   }
 }
 
-@media (max-width: 480px) {
-  .attendance-title {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+@media (min-width: 768px) and (max-width: 850px) {
+  .container {
+    max-width: 700px;
+    padding: 1.5rem 1rem;
   }
-  .month-nav {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+
+  .attendance-title-text {
+    font-size: 24px;
   }
+
   .month-nav-link {
-    font-size: 0.9rem;
+    font-size: 14px;
   }
+
+  .month-nav-arrow-img {
+    width: 18px;
+    height: 14px;
+    margin: 0 0.25rem;
+  }
+
   .month-nav-current {
-    font-size: 0.95rem;
+    font-size: 18px;
   }
+
+  .month-nav-calendar-img {
+    width: 18px;
+    height: 18px;
+    margin-right: 0.5rem;
+  }
+
   .attendance-table th,
   .attendance-table td {
-    font-size: 0.8rem;
-    padding: 0.5rem 0.15rem;
+    padding: 0.5rem 0.25rem;
+    font-size: 14px;
   }
-  .attendance-table th:first-child,
-  .attendance-table td:first-child {
-    padding-left: 0.5rem;
-  }
-  .attendance-table th:last-child,
-  .attendance-table td:last-child {
-    padding-right: 0.5rem;
+
+  .attendance-link {
+    font-size: 14px;
   }
 }
+
+
+
+
+
+
+

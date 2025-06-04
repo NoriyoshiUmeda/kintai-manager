@@ -18,28 +18,28 @@
 
     {{-- 2. 月ナビゲーション --}}
     <div class="month-nav">
-        {{-- 前月ボタン --}}
+        {{-- 前月ボタン（PNG矢印＋テキスト） --}}
         <a href="{{ route('attendances.index', ['month' => $prevMonth]) }}" class="month-nav-link">
-            <svg viewBox="0 0 24 24" class="month-nav-icon">
-                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>前月</span>
+            <img src="{{ asset('images/arrow-left.png') }}"
+                 alt="前月"
+                 class="month-nav-arrow-img">
+            <span class="month-nav-link-text">前月</span>
         </a>
 
-        {{-- 現在年月 --}}
+        {{-- 現在年月（カレンダーアイコン＋年月テキスト） --}}
         <div class="month-nav-current">
-            <svg viewBox="0 0 24 24" class="month-nav-calendar">
-                <path d="M3 4h18v18H3V4zm4 0v2m8-2v2m-10 4h12m-12 4h12m-12 4h12m-12 4h12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>{{ $displayYearMonth }}</span>
+            <img src="{{ asset('images/calendar.png') }}"
+                 alt="カレンダーアイコン"
+                 class="month-nav-calendar-img">
+            <span class="month-nav-current-text">{{ $displayYearMonth }}</span>
         </div>
 
-        {{-- 翌月ボタン --}}
+        {{-- 翌月ボタン（テキスト＋PNG矢印） --}}
         <a href="{{ route('attendances.index', ['month' => $nextMonth]) }}" class="month-nav-link">
-            <span>翌月</span>
-            <svg viewBox="0 0 24 24" class="month-nav-icon">
-                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <span class="month-nav-link-text">翌月</span>
+            <img src="{{ asset('images/arrow-right.png') }}"
+                 alt="翌月"
+                 class="month-nav-arrow-img">
         </a>
     </div>
 
@@ -103,10 +103,10 @@
                                 $workDisplay = '-';
                             }
                         } else {
-                            $in           = '-';
-                            $out          = '-';
-                            $breakDisplay = '-';
-                            $workDisplay  = '-';
+                            $in           = '';
+                            $out          = '';
+                            $breakDisplay = '';
+                            $workDisplay  = '';
                         }
 
                         // 曜日を漢字で取得
@@ -125,7 +125,7 @@
                             @if($att)
                                 <a href="{{ route('attendances.show', $att->id) }}" class="attendance-link">詳細</a>
                             @else
-                                -
+                                
                             @endif
                         </td>
                     </tr>
