@@ -1,0 +1,263 @@
+/* public/css/attendances/index.css */
+
+/*--------------------------------------------------------------
+1. リセット & 基本設定
+--------------------------------------------------------------*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+  background-color: #f2f2f2;
+  line-height: 1.4;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/*--------------------------------------------------------------
+2. コンテナ & レイアウト
+--------------------------------------------------------------*/
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/*--------------------------------------------------------------
+3. タイトル部分
+--------------------------------------------------------------*/
+.attendance-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.attendance-title-line {
+  display: inline-block;
+  width: 4px;
+  height: 1.5rem;
+  background-color: #000;
+  margin-right: 0.75rem;
+}
+
+.attendance-title-text {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  color: #222;
+}
+
+/*--------------------------------------------------------------
+4. 月ナビゲーション
+--------------------------------------------------------------*/
+.month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e5e5;
+}
+
+.month-nav-link {
+  display: inline-flex;
+  align-items: center;
+  color: #555;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.month-nav-link:hover {
+  color: #000;
+}
+
+.month-nav-icon {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  margin-right: 0.25rem;
+}
+
+.month-nav-link:last-child .month-nav-icon {
+  margin-left: 0.25rem;
+  margin-right: 0;
+}
+
+.month-nav-current {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.1rem; /* 18px */
+  font-weight: 500;
+  color: #444;
+}
+
+.month-nav-calendar {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  margin-right: 0.5rem;
+}
+
+/*--------------------------------------------------------------
+5. テーブルをカード状に包む
+--------------------------------------------------------------*/
+.table-card {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow-x: auto; /* 横スクロール対応 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e5e5;
+}
+
+/*--------------------------------------------------------------
+6. 勤怠テーブル
+--------------------------------------------------------------*/
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* ヘッダー行 */
+.attendance-table thead {
+  background-color: #fafafa;
+}
+
+/* th, td の基本設定 */
+.attendance-table th,
+.attendance-table td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.attendance-table th {
+  font-weight: 600;
+  color: #222;
+}
+
+/* 日付列（左寄せ＆余白調整） */
+.attendance-table th:first-child,
+.attendance-table td:first-child {
+  text-align: left;
+  padding-left: 1rem;
+}
+
+/* 詳細列も右余白を少し */
+.attendance-table th:last-child,
+.attendance-table td:last-child {
+  padding-right: 1rem;
+}
+
+/* 行ホバー時 */
+.attendance-table tbody tr:hover {
+  background-color: #f7f7f7;
+}
+
+/* 未打刻（日付はあってもレコードが無い）のセルを薄グレーに */
+.attendance-table td:empty {
+  color: #aaa;
+}
+
+/* 詳細リンク */
+.attendance-link {
+  color: #1a73e8;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.attendance-link:hover {
+  color: #1558b0;
+}
+
+/*--------------------------------------------------------------
+7. レスポンシブ対応
+--------------------------------------------------------------*/
+@media (max-width: 768px) {
+  .attendance-title-text {
+    font-size: 1.25rem; /* 20px */
+  }
+  .month-nav {
+    padding: 0.5rem 0.75rem;
+  }
+  .month-nav-current {
+    font-size: 1rem;
+  }
+  .attendance-table th,
+  .attendance-table td {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.25rem;
+  }
+  .attendance-table th:first-child,
+  .attendance-table td:first-child {
+    padding-left: 0.75rem;
+  }
+  .attendance-table th:last-child,
+  .attendance-table td:last-child {
+    padding-right: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .attendance-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .month-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .month-nav-link {
+    font-size: 0.9rem;
+  }
+  .month-nav-current {
+    font-size: 0.95rem;
+  }
+  .attendance-table th,
+  .attendance-table td {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.15rem;
+  }
+  .attendance-table th:first-child,
+  .attendance-table td:first-child {
+    padding-left: 0.5rem;
+  }
+  .attendance-table th:last-child,
+  .attendance-table td:last-child {
+    padding-right: 0.5rem;
+  }
+}

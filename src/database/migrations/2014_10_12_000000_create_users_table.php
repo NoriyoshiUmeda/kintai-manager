@@ -12,7 +12,10 @@ return new class extends Migration {
             $table->string('name', 255);
             $table->string('email', 255)->unique();
             $table->string('password', 255);
-            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
+            $table->unsignedBigInteger('role_id')->default(1);
+            $table->foreign('role_id')
+                  ->references('id')->on('roles')
+                  ->onDelete('cascade');
             $table->timestamps(); 
         });
     }

@@ -10,8 +10,8 @@ return new class extends Migration {
         Schema::create('breaks', function (Blueprint $table) {
             $table->id(); // bigint unsigned, primary key
             $table->foreignId('attendance_id')->constrained('attendances')->onDelete('cascade');
-            $table->dateTime('break_start')->nullable();
-            $table->dateTime('break_end')->nullable();
+            $table->time('break_start')->nullable();
+            $table->time('break_end')->nullable();
             $table->timestamps(); // created_at, updated_at
         });
     }
