@@ -10,18 +10,18 @@ class Attendance extends Model
 {
     use HasFactory;
 
-    // テーブル名を明示的に指定する場合は以下を有効にする
+    // 明示的にテーブル名を指定する場合はこちらを有効化
     // protected $table = 'attendances';
 
     /**
-     * 日付キャストやタイムキャストが必要なら設定
+     * キャスト設定
      */
     protected $casts = [
         'work_date' => 'date',
     ];
 
     /**
-     * 書き込み可能な属性
+     * 一括代入許可属性
      */
     protected $fillable = [
         'user_id',
@@ -32,15 +32,16 @@ class Attendance extends Model
     ];
 
     /**
-     * ステータスの定数定義
+     * ステータス定数
      */
     public const STATUS_OFF         = 0; // 勤務外
     public const STATUS_IN_PROGRESS = 1; // 出勤中
     public const STATUS_ON_BREAK    = 2; // 休憩中
     public const STATUS_COMPLETED   = 3; // 退勤済
+    public const STATUS_PENDING     = 4; // 修正申請中
 
     /**
-     * ステータスに対応するラベルマッピング
+     * ステータス→ラベルマッピング
      *
      * @return array<int,string>
      */
@@ -51,11 +52,12 @@ class Attendance extends Model
             self::STATUS_IN_PROGRESS => '出勤中',
             self::STATUS_ON_BREAK    => '休憩中',
             self::STATUS_COMPLETED   => '退勤済',
+            self::STATUS_PENDING     => '承認待ち',
         ];
     }
 
     /**
-     * アクセサ：status カラムの数値をラベル文字列に変換して返す
+     * アクセサ：status_label プロパティ
      *
      * @return string
      */
@@ -65,7 +67,7 @@ class Attendance extends Model
     }
 
     /**
-     * リレーション：Attendance は User に属する
+     * Attendance は User に属する
      */
     public function user()
     {
@@ -73,7 +75,7 @@ class Attendance extends Model
     }
 
     /**
-     * リレーション：Attendance は Break Record を複数持つ
+     * Attendance は複数の BreakTime を持つ
      */
     public function breaks()
     {
@@ -81,7 +83,7 @@ class Attendance extends Model
     }
 
     /**
-     * リレーション：Attendance は CorrectionRequest を複数持つ
+     * Attendance は複数の CorrectionRequest を持つ
      */
     public function correctionRequests()
     {
@@ -89,11 +91,11 @@ class Attendance extends Model
     }
 
     /**
-     * スコープ：特定ユーザーの特定日におけるレコードを取得する
+     * スコープ：指定ユーザー・指定日のレコード取得
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $userId
-     * @param \Illuminate\Support\Carbon|string $date (例: '2025-06-01' もしくは Carbon)
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int                                     $userId
+     * @param  \Illuminate\Support\Carbon|string       $date
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForDate($query, int $userId, $date)

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Models\BreakTime;
 use Illuminate\Http\Request;
+use App\Http\Requests\CorrectionRequest;
+use App\Models\CorrectionRequest as CR; 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -181,4 +183,34 @@ class AttendanceController extends Controller
         ]);
     }
 
+    public function update(CorrectionRequest $request, Attendance $attendance)
+    {
+        // 1. 自分の勤怠以外は404
+        if ($attendance->user_id !== Auth::id()) {
+            abort(404);
+        }
+
+        // 2. バリデート済みデータを取得
+        $data = $request->validated();
+
+        // 3. 修正申請レコードを作成
+        CR::create([
+            'attendance_id'    => $attendance->id,
+            'user_id'          => Auth::id(),
+            'requested_in'     => $data['clock_in'],
+            'requested_out'    => $data['clock_out'],
+            'requested_breaks' => $data['breaks'] ?? [],
+            'comment'          => $data['comment'],
+            'status'           => CR::STATUS_PENDING,
+        ]);
+
+        // 4. 元勤怠は「承認待ち」ステータスに
+        $attendance->status = Attendance::STATUS_PENDING;
+        $attendance->save();
+
+        // 5. 詳細画面にリダイレクト
+        return redirect()
+            ->route('attendances.show', $attendance)
+            ->with('status', '修正申請を送信しました（承認待ち）');
+    }
 }

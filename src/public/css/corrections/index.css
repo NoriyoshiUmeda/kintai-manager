@@ -1,0 +1,267 @@
+/*--------------------------------------------------------------
+1. リセット & 基本設定
+--------------------------------------------------------------*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+  background-color: #f2f2f2;
+  line-height: 1.4;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/*--------------------------------------------------------------
+2. コンテナ & レイアウト
+--------------------------------------------------------------*/
+.container {
+  width: 900px;
+  height: 472px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/*--------------------------------------------------------------
+3. タイトル部分
+--------------------------------------------------------------*/
+.detail-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.detail-title-line {
+  width: 4px;
+  height: 1.5rem;
+  background-color: #000;
+  margin-right: 0.75rem;
+}
+.detail-title-text {
+  font-size: 30px;
+  font-weight: 700;
+  color: #000;
+}
+
+/*--------------------------------------------------------------
+4. タブ切り替え
+--------------------------------------------------------------*/
+.tabs {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+}
+
+.tab {
+  position: relative;
+  margin-right: 2rem;
+  padding-bottom: 0.5rem;
+  font-size: 16px;
+  font-weight: 700;
+  color: #737373;
+  cursor: pointer;
+}
+
+.tab.active {
+  color: #000;
+}
+
+.tab.active::after {
+    display: none;
+}
+
+/* タブ下のライン */
+.tabs + .tabs-underline {
+  height: 1px;
+  border: solid 1px;
+  background-color: #000000;
+  margin-bottom: 1.5rem;
+}
+
+/* タブパネルの初期状態は非表示 */
+.tab-pane {
+    display: none;
+  }
+  
+  /* active がついているものだけ表示 */
+  .tab-pane.active {
+    display: block;
+  }
+  
+  .tabs-underline {
+    /* detail-card 内でテーブルを左右に 1.5rem はみ出している分を足し
+       ＝container 幅 + 3rem */
+    width: calc(100% + 3rem);
+    /* はみ出した分だけ左右にマイナスマージン */
+    margin: 0 -1.5rem 1.5rem;
+    height: 1px;
+    background-color: #e5e5e5;
+  }
+
+/*--------------------------------------------------------------
+5. カード枠（テーブルを囲む白背景）
+--------------------------------------------------------------*/
+.detail-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+
+/*--------------------------------------------------------------
+7. テーブルスタイル (list-table)
+--------------------------------------------------------------*/
+.list-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* th／td 共通 */
+.list-table th,
+.list-table td {
+  padding: 0.75rem 1rem;
+  vertical-align: middle;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.15rem;
+  color: #737373;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.list-table thead th {
+    border-bottom: 3px solid #e1e1e1;
+    text-align: center;
+  }
+  
+
+.list-table tbody td {
+  border-bottom: 2px solid #e1e1e1;
+}
+
+
+
+
+/* 最終行の下線を消す */
+.list-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+
+/* 「詳細」リンクスタイル */
+.list-table td a {
+  color: #000000;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.15rem;
+}
+
+/*--------------------------------------------------------------
+8. スクロールバーのスタイル（任意）
+--------------------------------------------------------------*/
+.table-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+
+/*--------------------------------------------------------------
+9. レスポンシブ: PC (1400–1540px)
+--------------------------------------------------------------*/
+@media (min-width: 1400px) and (max-width: 1540px) {
+  .container {
+    max-width: 1300px;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .detail-title-text {
+    font-size: 36px;
+  }
+
+  .tabs {
+    margin-bottom: 2rem;
+  }
+  .tab {
+    margin-right: 3rem;
+    font-size: 18px;
+  }
+
+  .tabs-underline {
+    margin-bottom: 2rem;
+  }
+
+  .list-table th,
+  .list-table td {
+    padding: 1rem 1.5rem;
+    font-size: 18px;
+  }
+
+  .list-table td a {
+    font-size: 18px;
+  }
+}
+
+/*--------------------------------------------------------------
+10. レスポンシブ: タブレット (768–850px)
+--------------------------------------------------------------*/
+@media (min-width: 768px) and (max-width: 850px) {
+  .container {
+    max-width: 700px;
+    padding: 1.5rem 1rem;
+  }
+
+  .detail-title-text {
+    font-size: 24px;
+  }
+
+  .tabs {
+    margin-bottom: 1rem;
+  }
+  .tab {
+    margin-right: 1.5rem;
+    font-size: 14px;
+    padding-bottom: 0.25rem;
+  }
+
+  .tabs-underline {
+    margin-bottom: 1rem;
+  }
+
+  .list-table th,
+  .list-table td {
+    padding: 0.5rem 0.75rem;
+    font-size: 14px;
+  }
+
+  .list-table td a {
+    font-size: 14px;
+  }
+}

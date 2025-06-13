@@ -39,6 +39,9 @@
         <div class="form-group">
             <label for="password_confirmation">パスワード確認</label>
             <input type="password" name="password_confirmation" id="password_confirmation">
+            @error('password_confirmation')
+                <div class="error">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">

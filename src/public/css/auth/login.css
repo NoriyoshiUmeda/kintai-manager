@@ -1,126 +1,119 @@
-body {
+/* ── グローバルに box-sizing を効かせる ── */
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  /* ── ベース ── */
+  body {
     margin: 0;
     font-family: sans-serif;
     background-color: white;
-}
-
-.main {
+  }
+  
+  /* ページ全体のラッパー */
+  .main {
     padding: 2rem;
-    max-width: 500px;
+    width: 100%;
+    max-width: 500px;   /* スマホ～標準PCの上限 */
     margin: 3rem auto;
-    align-items: center;
-}
-
-.title {
+  }
+  
+  /* タイトル */
+  .title {
     text-align: center;
     font-size: 36px;
     font-weight: 700;
     margin-bottom: 2rem;
-}
-
-.form {
+  }
+  
+  /* フォーム */
+  .form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-    align-items: center;
-}
-
-label {
+    width: 100%;
+  }
+  
+  /* 各入力グループ */
+  .form-group {
+    width: 100%;
+    max-width: 680px;      /* デスクトップ時の上限 */
+    margin: 0 auto 1rem;   /* 中央寄せ＋下余白 */
+  }
+  
+  /* ラベル */
+  label {
     display: block;
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 0.25rem;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 680px;
+  }
+  
+  /* 入力欄 */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    display: block;
+    width: 100%;           /* 親(.form-group)にフィット */
     height: 45px;
     padding: 10px;
-    border-radius: 4px;
-    box-sizing: border-box;
     border: 1px solid black;
-}
-
-.error {
+    border-radius: 4px;
+  }
+  
+  /* エラーメッセージ */
+  .error {
     color: red;
     font-size: 0.875rem;
     margin-top: 0.25rem;
-}
-
-
-.btn {
-    background-color: #000000;
-    width: 680px;
+  }
+  
+  /* 送信ボタン */
+  .btn {
+    display: block;
+    width: 100%;
+    max-width: 680px;      /* 入力欄と同じ上限 */
     height: 60px;
-    color: white;
+    margin: 0 auto;
+    background-color: #000;
+    color: #fff;
     border: none;
-    padding: 10px 20px;
     border-radius: 5px;
-    cursor: pointer;
     font-size: 26px;
     font-weight: 700;
-}
-
-.btn:hover {
+    cursor: pointer;
+    padding: 10px 20px;
+  }
+  .btn:hover {
     background-color: #333;
-}
-
-.login-link {
+  }
+  
+  /* ログインリンク */
+  .login-link {
     text-align: center;
     margin-top: 1rem;
-}
-
-.login-link a {
+  }
+  .login-link a {
     color: #007bff;
     text-decoration: none;
-}
-
-.login-link a:hover {
+  }
+  .login-link a:hover {
     text-decoration: underline;
-}
-
-/* ==================== タブレット (768px ～ 850px) ==================== */
-@media screen and (min-width: 768px) and (max-width: 850px) {
+  }
+  
+  /* ── ワイドPCだけ上限を広げる ── */
+  @media screen and (min-width: 1400px) {
     .main {
-        max-width: 90%; /* 画面幅の90%に抑える */
+      max-width: 800px;
     }
-    /* 入力欄はコンテナ幅いっぱいに広げる */
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-        width: 100%;
-    }
+    .form-group,
     .btn {
-        width: 100%;
-        font-size: 22px; /* ボタン内文字を少し小さめに */
+      max-width: 700px;
     }
     label {
-        font-size: 20px; /* ラベル文字を少し小さく */
-    }
-}
-
-/* ==================== PC (1400px ～ 1540px) ==================== */
-@media screen and (min-width: 1400px) {
-    .main {
-        max-width: 800px; /* 少し広めに許容 */
-    }
-    /* 入力欄は800pxの80%くらいにする */
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-        width: 700px;
+      font-size: 26px;
     }
     .btn {
-        width: 700px;
-        font-size: 28px; /* 少し大きめに */
+      font-size: 28px;
     }
-    label {
-        font-size: 26px;
-    }
-}
+  }
+  
