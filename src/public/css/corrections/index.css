@@ -39,10 +39,12 @@ button {
 2. コンテナ & レイアウト
 --------------------------------------------------------------*/
 .container {
-  width: 900px;
-  height: 472px;
+  width: 100%;
+  max-width: 900px;
+  height: auto;
   margin: 0 auto;
   padding: 2rem 1rem;
+  box-sizing: border-box;
 }
 
 /*--------------------------------------------------------------
@@ -73,11 +75,14 @@ button {
   margin: 0 0 1rem;
   padding: 0;
   display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: flex-start;
 }
 
 .tab {
   position: relative;
-  margin-right: 2rem;
+  margin-right: 0;
   padding-bottom: 0.5rem;
   font-size: 16px;
   font-weight: 700;
@@ -93,14 +98,6 @@ button {
     display: none;
 }
 
-/* タブ下のライン */
-.tabs + .tabs-underline {
-  height: 1px;
-  border: solid 1px;
-  background-color: #000000;
-  margin-bottom: 1.5rem;
-}
-
 /* タブパネルの初期状態は非表示 */
 .tab-pane {
     display: none;
@@ -112,15 +109,12 @@ button {
   }
   
   .tabs-underline {
-    /* detail-card 内でテーブルを左右に 1.5rem はみ出している分を足し
-       ＝container 幅 + 3rem */
-    width: calc(100% + 3rem);
-    /* はみ出した分だけ左右にマイナスマージン */
-    margin: 0 -1.5rem 1.5rem;
+    width: 100%;           /* コンテナ内にぴったり */
+    margin: 0 0 1.5rem;    /* 下マージンだけ */
     height: 1px;
     background-color: #e5e5e5;
   }
-
+  
 /*--------------------------------------------------------------
 5. カード枠（テーブルを囲む白背景）
 --------------------------------------------------------------*/
@@ -137,9 +131,11 @@ button {
 --------------------------------------------------------------*/
 .list-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden; 
 }
-
 /* th／td 共通 */
 .list-table th,
 .list-table td {
@@ -196,7 +192,7 @@ button {
 /*--------------------------------------------------------------
 9. レスポンシブ: PC (1400–1540px)
 --------------------------------------------------------------*/
-@media (min-width: 1400px) and (max-width: 1540px) {
+@media (min-width: 1400px) {
   .container {
     max-width: 1300px;
     padding: 2.5rem 1.5rem;
@@ -234,33 +230,44 @@ button {
 --------------------------------------------------------------*/
 @media (min-width: 768px) and (max-width: 850px) {
   .container {
-    max-width: 700px;
-    padding: 1.5rem 1rem;
+    max-width: 100%;
+    padding: 1rem 0.75rem;
   }
 
+  /* タイトルを少し小さめに */
   .detail-title-text {
-    font-size: 24px;
+    font-size: 22px;
   }
 
+  /* タブは折り返しつつ隙間を保つ */
   .tabs {
+    display: flex;
+    flex-wrap: wrap;      /* ここで折り返しを許可 */
+    gap: 1rem;            /* タブ間に余白 */
+    justify-content: flex-start;
     margin-bottom: 1rem;
   }
+
+  /* 個々のタブの余白はリセットして gap に委ねる */
   .tab {
-    margin-right: 1.5rem;
+    margin: 0;
     font-size: 14px;
     padding-bottom: 0.25rem;
+    white-space: nowrap;  /* タブ内の文字は折り返さない */
   }
 
+  /* 下線もコンテナいっぱいに */
   .tabs-underline {
+    width: 100%;
     margin-bottom: 1rem;
   }
 
+  /* テーブル周りも小さめに */
   .list-table th,
   .list-table td {
     padding: 0.5rem 0.75rem;
     font-size: 14px;
   }
-
   .list-table td a {
     font-size: 14px;
   }

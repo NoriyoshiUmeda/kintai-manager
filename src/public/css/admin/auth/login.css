@@ -1,0 +1,119 @@
+/* ── グローバルに box-sizing を効かせる ── */
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  /* ── ベース ── */
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: white;
+  }
+  
+  /* ページ全体のラッパー */
+  .main {
+    padding: 2rem;
+    width: 100%;
+    max-width: 500px;   /* スマホ～標準PCの上限 */
+    margin: 3rem auto;
+  }
+  
+  /* タイトル */
+  .title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 2rem;
+  }
+  
+  /* フォーム */
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  /* 各入力グループ */
+  .form-group {
+    width: 100%;
+    max-width: 680px;      /* デスクトップ時の上限 */
+    margin: 0 auto 1rem;   /* 中央寄せ＋下余白 */
+  }
+  
+  /* ラベル */
+  label {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  
+  /* 入力欄 */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    display: block;
+    width: 100%;           /* 親(.form-group)にフィット */
+    height: 45px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+  }
+  
+  /* エラーメッセージ */
+  .error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  /* 送信ボタン */
+  .btn {
+    display: block;
+    width: 100%;
+    max-width: 680px;      /* 入力欄と同じ上限 */
+    height: 60px;
+    margin: 0 auto;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 26px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 10px 20px;
+  }
+  .btn:hover {
+    background-color: #333;
+  }
+  
+  /* ログインリンク */
+  .login-link {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  .login-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+  
+  /* ── ワイドPCだけ上限を広げる ── */
+  @media screen and (min-width: 1400px) {
+    .main {
+      max-width: 800px;
+    }
+    .form-group,
+    .btn {
+      max-width: 700px;
+    }
+    label {
+      font-size: 26px;
+    }
+    .btn {
+      font-size: 28px;
+    }
+  }
+  

@@ -1,41 +1,44 @@
 /*--------------------------------------------------------------
 リセット & 基本設定
 --------------------------------------------------------------*/
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-
 html, body {
   height: 100%;
 }
-
 body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #333;
   background-color: #f2f2f2;
   line-height: 1.4;
 }
-
-a { text-decoration: none; color: inherit; }
-button { font-family: inherit; cursor: pointer; border: none; background: none; }
+a {
+  text-decoration: none;
+  color: inherit;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
 
 /*--------------------------------------------------------------
 コンテナ & レイアウト
 --------------------------------------------------------------*/
 .container {
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
 
 /*--------------------------------------------------------------
-1. タイトル部分
+タイトル部分
 --------------------------------------------------------------*/
 .detail-title {
   display: flex;
@@ -43,119 +46,126 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin-bottom: 2rem;
 }
 .detail-title-line {
-  width: 8px; height: 2rem;
-  background: #000; margin-right: 0.75rem;
+  width: 8px;
+  height: 2rem;
+  background: #000;
+  margin-right: 0.75rem;
 }
 .detail-title-text {
-  font-size: 30px; font-weight: 700; color: #000;
+  font-size: 30px;
+  font-weight: 700;
+  color: #000;
 }
 
 /*--------------------------------------------------------------
-2. カード枠
+カード枠
 --------------------------------------------------------------*/
 .detail-card {
+  width: 100%;
+  margin: 0 auto;
   background: #fff;
   border-radius: 10px;
-  padding: 1.5rem ;
+  padding: 0;
   overflow: hidden;
 }
-.detail-card.readonly { padding-bottom: 3rem; }
-
 .detail-card .detail-table {
-  /* カードの左右パディング分だけ幅を広げて */
-  width: calc(100% + 3rem);
-  /* 左右にマイナスマージンを入れて、パディング外まで広げる */
-  margin: 0 -1.5rem;
-  border-collapse: collapse; /* 既存 */
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
-
-.detail-table tr > td:nth-child(2),
-.detail-table tr > td:nth-child(3) {
-  padding-right: 12rem;
-}
-
 
 /*--------------------------------------------------------------
-3. テーブル基本スタイル
+テーブルスタイル
 --------------------------------------------------------------*/
+
 .detail-table {
-  width: 100%; border-collapse: collapse;
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
 }
 
-.detail-table th {
-  width: 25%;
-  padding: 2rem 1rem;
-  font-size: 16px; font-weight: 700;
-  color: #737373;
-  border-bottom: 2px solid #e1e1e1;
-  text-align: left;
-  letter-spacing: 0.15rem;
-}
-
+.detail-table th,
 .detail-table td {
-  width: 37.5%; /* 3 列で合計100% */
-  padding: 0.75rem 1rem;
-  font-size: 16px; font-weight: 700;
-  color: #000;
-  border-bottom: 2px solid #e1e1e1;
+  padding: 1.25rem;
+  height: 60px;
   vertical-align: middle;
+  border-bottom: 2px solid #e1e1e1;
+  font-size: 16px;
+  font-weight: 700;
   letter-spacing: 0.15rem;
 }
-
-/* 最終行の下線を消す */
+.detail-table th {
+  width: 160px;
+  padding-right: 20rem;
+  color: #737373;
+  text-align: left;
+  white-space: nowrap;
+}
+.detail-table td {
+  width: auto;
+  color: #000;
+}
 .detail-table tr:last-child th,
 .detail-table tr:last-child td {
   border-bottom: none;
 }
 
 /*--------------------------------------------------------------
-4. 値セル中央揃え
+入力フィールド + チルダ
 --------------------------------------------------------------*/
-.value-cell {
-  text-align: center;
+.input-cell-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
-
-/* 備考のみ左寄せ */
-.detail-table td[colspan="2"] {
-  text-align: center;
-}
-
-/*「〜」マーク */
-.tilde {
-  margin: 0 0.5rem;
-  font-size: 16px; font-weight: 700;
-  vertical-align: middle;
-  display: inline-block;
-}
-
-/*--------------------------------------------------------------
-5. 入力フィールド
---------------------------------------------------------------*/
 .time-input {
-  width: 100px;
+  height: 28px;
+  width: 103px;
   padding: 0.25rem 0.5rem;
-  font-family: inter, sans-serif;
-  font-size: 16px; font-weight: 700;
-  letter-spacing: 0.15rem; color: #000;
+  font-size: 16px;
+  font-weight: 700;
   text-align: center;
+  color: #000;
   background: #fff;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #e1e1e1;
   border-radius: 4px;
   appearance: none;
+  letter-spacing: 0.15rem;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.tilde {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 1rem;
 }
 
-/* アイコン非表示 */
 input[type="time"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-inner-spin-button,
-input[type="time"]::-webkit-outer-spin-button,
 input[type="time"]::-webkit-clear-button,
-input[type="time"]::-moz-time-picker-indicator {
+input[type="time"]::-webkit-inner-spin-button,
+input[type="time"]::-webkit-outer-spin-button {
   display: none;
   -webkit-appearance: none;
 }
+input[type="time"] {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: none;
+  background-color: transparent;
+  color-scheme: light;
+}
 
+.work-year {
+  margin-right: 9rem; 
+}
+
+
+/*--------------------------------------------------------------
+備考入力欄
+--------------------------------------------------------------*/
 .comment-input {
-  display: inline-block;
+  display: block;
   width: 316px;
   height: 72px;
   padding: 0.75rem;
@@ -167,10 +177,11 @@ input[type="time"]::-moz-time-picker-indicator {
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   resize: none;
+  box-sizing: border-box;
 }
 
 /*--------------------------------------------------------------
-6. 修正ボタン
+修正ボタン
 --------------------------------------------------------------*/
 .button-wrapper {
   text-align: right;
@@ -183,163 +194,66 @@ input[type="time"]::-moz-time-picker-indicator {
   justify-content: center;
   width: 130px;
   height: 50px;
-  background: #000; color: #fff;
-  font-size: 22px; font-weight: 700;
+  background: #000;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
   border-radius: 5px;
+  letter-spacing: 0.15rem;
   transition: background-color 0.2s;
-  letter-spacing: 0.15rem;
 }
-.btn-submit:hover { background: #333; }
-
-/*--------------------------------------------------------------
-7. 承認待ちコメント
---------------------------------------------------------------*/
-.pending-message {
-  color: #ff0000;
-  font-size: 18px;
-  font-weight: 800;
-  margin-top: 1.5rem;
-  letter-spacing: 0.15rem;
-  text-align: right;
+.btn-submit:hover {
+  background: #333;
 }
-
-/* ─────────────────────────────────────────
-   ② time input の時計アイコンを完全に消す
-─────────────────────────────────────────*/
-/* ベースで appearance: none を指定 */
-.time-input,
-input[type="time"] {
-  -webkit-appearance: none;
-  -moz-appearance: textfield;  /* Firefox */
-  appearance: none;
-}
-
-/* Chrome, Safari のカレンダー／スピナーアイコン */
-input[type="time"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-inner-spin-button,
-input[type="time"]::-webkit-clear-button {
-  display: none;
-  -webkit-appearance: none;
-}
-
-/* Firefox の時計アイコン */
-input[type="time"]::-moz-time-picker-indicator {
-  display: none;
-}
-
-.detail-table tr > td:nth-child(3) {
-  position: relative; /* 絶対配置の基準に */
-}
-
-/* まず既存のマージンをリセット */
-.detail-table .tilde {
-  display: inline-block;
-  vertical-align: middle;
+/*バリデーションメッセージ*/
+.error-message {
+  color: #ff0000;  /* 赤色 */
   font-size: 16px;
   font-weight: 700;
-  /* 右余白分(12rem)を相殺して左にシフト */
-  margin: 0 -5rem;
+  margin-top: 0.25rem;
+  letter-spacing: 0.15rem;
 }
 
-/* 「〜」をセルの左パディング外へ */
-.detail-table tr > td:nth-child(3) .tilde {
-  position: absolute;
-  /* セルのパディング(1rem)分だけ左へ */
-  left: -1rem;
-  /* 縦方向はコンテンツ中央へ */
-  top: 50%;
-  transform: translateY(-50%);
-}
 
-/* 右側の input をチルト位置から少し離す */
-.detail-table tr > td:nth-child(3) .time-input {
-  /* ローカルなマージンを調整 */
-  margin-left: 1rem;
-}
-
-/* バリデーションエラーメッセージを赤字で表示 */
-.error-message {
-  color: #ff0000;       /* 赤 */
-  font-size: 16px;      
-  margin-top: 0.25rem;  /* 入力欄との隙間 */
-  line-height: 1.2;
-}
-
-/*─────────────────────────────────────────
-  レスポンシブ対応（PC / タブレット）
-─────────────────────────────────────────*/
-
-/* PC: 1400px〜1540px */
-@media screen and (min-width: 1400px) {
-  .container {
-    max-width: 1200px;
-    padding: 2rem 2rem;
-  }
+/*--------------------------------------------------------------
+レスポンシブ対応
+--------------------------------------------------------------*/
+@media screen and (max-width: 850px) and (min-width: 768px) {
   .detail-title-text {
-    font-size: 2rem;
-  }
-  .detail-card {
-    padding: 2rem;
-  }
-  .detail-table th,
-  .detail-table td {
-    padding: 1.5rem 1.5rem;
-  }
-  .time-input {
-    width: 120px;
-  }
-  .remarks-input {
-    width: 100%;
-  }
-  .btn-submit {
-    width: 150px;
-    height: 56px;
     font-size: 24px;
   }
-}
-
-/* タブレット: 768px〜850px */
-@media screen and (min-width: 768px) and (max-width: 850px) {
-  .container {
-    padding: 1rem;
-  }
-  .detail-title-text {
-    font-size: 1.5rem;
-  }
-  .detail-card {
-    padding: 1rem;
-  }
-  /* フレックスレイアウトに切り替え */
-  .detail-table {
-    display: block;
-  }
-  .detail-table tr {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
   .detail-table th,
   .detail-table td {
-    display: block;
-    width: 100%;
-    padding: 0.75rem 0.5rem;
     font-size: 14px;
+    padding: 1rem;
   }
-  .detail-table td.input-cell {
-    justify-content: flex-start;
-  }
-  .time-input {
-    width: 80px;
+  .time-input,
+  .tilde {
     font-size: 14px;
-  }
-  .remarks-input {
-    width: 100%;
-    font-size: 14px;
+    height: 34px;
   }
   .btn-submit {
     width: 100%;
     font-size: 18px;
-    margin-top: 1rem;
+    height: 44px;
+  }
+}
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+  .container {
+    max-width: 1100px;
+    padding: 2rem 2rem;
+  }
+  .detail-title-text {
+    font-size: 32px;
+  }
+  .detail-table th,
+  .detail-table td {
+    font-size: 17px;
+    padding: 1.25rem;
+  }
+  .time-input,
+  .tilde {
+    font-size: 16px;
+    height: 38px;
   }
 }

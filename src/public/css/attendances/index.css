@@ -87,6 +87,7 @@ button {
   width: 20px;        /* 矢印の幅 */
   height: 15px;       /* 矢印の高さ */
   margin: 0 0.25rem;  /* 矢印と前月/翌月テキストの間隔 */
+  opacity: 0.3;
   vertical-align: middle;
 }
 

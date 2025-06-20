@@ -204,13 +204,10 @@ class AttendanceController extends Controller
             'status'           => CR::STATUS_PENDING,
         ]);
 
-        // 4. 元勤怠は「承認待ち」ステータスに
-        $attendance->status = Attendance::STATUS_PENDING;
-        $attendance->save();
 
         // 5. 詳細画面にリダイレクト
         return redirect()
             ->route('attendances.show', $attendance)
-            ->with('status', '修正申請を送信しました（承認待ち）');
+            ->with('status', '修正申請を送信しました');
     }
 }

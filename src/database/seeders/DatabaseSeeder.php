@@ -6,15 +6,15 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
     public function run()
     {
-        $this->call([
-            RoleSeeder::class,
-        ]);
+        // ① roles
+        $this->call(RoleSeeder::class);
+
+        // ② users
+        $this->call(UserSeeder::class);
+
+        // ③ 一般ユーザの勤怠＋休憩データ
+        $this->call(AttendanceAndBreakSeeder::class);
     }
 }

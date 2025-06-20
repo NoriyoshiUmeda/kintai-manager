@@ -18,6 +18,8 @@ class Attendance extends Model
      */
     protected $casts = [
         'work_date' => 'date',
+        'clock_in'  => 'datetime:H:i',   
+        'clock_out' => 'datetime:H:i',  
     ];
 
     /**
@@ -29,6 +31,7 @@ class Attendance extends Model
         'status',
         'clock_in',
         'clock_out',
+        'comment',
     ];
 
     /**
