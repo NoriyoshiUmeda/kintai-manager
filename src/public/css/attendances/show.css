@@ -214,6 +214,15 @@ input[type="time"] {
   letter-spacing: 0.15rem;
 }
 
+.pending-message {
+  color: #ff0000;  /* 赤色 */
+  font-size: 18px;
+  font-weight: 800;
+  margin-top: 0.25rem;
+  letter-spacing: 0.15rem;
+  text-align: right;
+}
+
 
 /*--------------------------------------------------------------
 レスポンシブ対応

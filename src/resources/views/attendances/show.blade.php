@@ -140,7 +140,7 @@
         </tr>
       </table>
     </div>
-    <p class="pending-message">*承認待ちのため修正はできません。</p>
+    <p class="pending-message">承認待ちのため修正はできません。</p>
   @endif
 </div>
 @endsection

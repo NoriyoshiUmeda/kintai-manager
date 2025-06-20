@@ -18,6 +18,7 @@
     $breaks = $attendance->breaks;
   @endphp
 
+
   <form action="{{ route('admin.attendances.update', $attendance) }}" method="POST" class="detail-form" novalidate>
     @csrf
     @method('PATCH')
@@ -32,9 +33,9 @@
         <tr>
           <th>日付</th>
           <td class="value-cell" colspan="2">
-    <span class="work-year">{{ $attendance->work_date->format('Y年') }}</span>
-    <span class="work-date">{{ $attendance->work_date->format('n月j日') }}</span>
-  </td>
+            <span class="work-year">{{ $attendance->work_date->format('Y年') }}</span>
+            <span class="work-date">{{ $attendance->work_date->format('n月j日') }}</span>
+          </td>
         </tr>
 
         <tr>
@@ -45,6 +46,15 @@
               <span class="tilde">〜</span>
               <input type="time" name="clock_out" value="{{ old('clock_out', optional($attendance->clock_out)->format('H:i')) }}" class="time-input" required>
             </div>
+            @php
+              $clockMessages = collect([
+                $errors->first('clock_in'),
+                $errors->first('clock_out')
+              ])->unique()->filter();
+            @endphp
+            @if ($clockMessages->isNotEmpty())
+              <div class="error-message">{{ $clockMessages->first() }}</div>
+            @endif
           </td>
         </tr>
 
@@ -57,6 +67,15 @@
               <span class="tilde">〜</span>
               <input type="time" name="breaks[{{ $i }}][break_end]" value="{{ old("breaks.$i.break_end", optional($b)->break_end ? \Illuminate\Support\Carbon::parse($b->break_end)->format('H:i') : '') }}" class="time-input">
             </div>
+            @php
+              $breakMessages = collect([
+                $errors->first("breaks.$i.break_start"),
+                $errors->first("breaks.$i.break_end")
+              ])->unique()->filter();
+            @endphp
+            @if ($breakMessages->isNotEmpty())
+              <div class="error-message">{{ $breakMessages->first() }}</div>
+            @endif
           </td>
         </tr>
         @endforeach
@@ -65,6 +84,9 @@
           <th>備考</th>
           <td class="value-cell comment-cell" colspan="2">
             <textarea name="comment" class="comment-input" placeholder="備考を入力">{{ old('comment', $attendance->remarks) }}</textarea>
+            @error('comment')
+              <div class="error-message">{{ $message }}</div>
+            @enderror
           </td>
         </tr>
       </table>
