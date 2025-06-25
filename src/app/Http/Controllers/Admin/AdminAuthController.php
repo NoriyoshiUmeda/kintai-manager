@@ -36,7 +36,7 @@ class AdminAuthController extends Controller
     }
 
     return back()
-        ->withErrors(['email' => '管理者情報が登録されていません'])
+        ->withErrors(['email' => 'ログイン情報が登録されていません'])
         ->onlyInput('email');
 }
 

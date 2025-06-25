@@ -94,6 +94,9 @@ Route::prefix('admin')->group(function () {
         Route::get('users/{user}/attendances', [AdminUserAttendanceController::class, 'index'])
              ->name('admin.users.attendances.index');
 
+        Route::get('users/{user}/attendances/csv', [AdminUserAttendanceController::class, 'exportcsv'])
+             ->name('admin.users.attendances.csv');
+
          //管理者用修正申請一覧／詳細／承認
         Route::get('corrections', [AdminCorrectionRequestController::class, 'index'])
              ->name('admin.corrections.index');

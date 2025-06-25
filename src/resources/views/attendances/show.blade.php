@@ -86,7 +86,7 @@
           <tr>
             <th>備考</th>
             <td class="input-cell" colspan="2">
-              <textarea name="comment" class="comment-input" placeholder="備考を入力">{{ old('comment') }}</textarea>
+              <textarea name="comment" class="comment-input" placeholder="備考を入力">{{ old('comment', $attendance->comment) }}</textarea>
               @error('comment')
                 <div class="error-message">{{ $message }}</div>
               @enderror
@@ -136,7 +136,7 @@
         @endforeach
         <tr>
           <th>備考</th>
-          <td colspan="2">{{ $attendance->remarks ?? 'ー' }}</td>
+          <td colspan="2">{{ optional($pendingRequest)->comment ?? 'ー' }}</td>
         </tr>
       </table>
     </div>

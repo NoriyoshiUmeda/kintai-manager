@@ -177,10 +177,19 @@ class AttendanceController extends Controller
             abort(404);
         }
 
-        // ビューには $attendance（とリレーションの $attendance->breaks）が渡る
-        return view('attendances.show', [
-            'attendance' => $attendance,
+        // 最新の承認待ち申請を取得
+    $pendingRequest = $attendance
+    ->correctionRequests()
+    ->where('status', CR::STATUS_PENDING)
+    ->latest('id')
+    ->first();
+
+        // ビューに渡す
+    return view('attendances.show', [
+    'attendance'     => $attendance,
+    'pendingRequest' => $pendingRequest,
         ]);
+
     }
 
     public function update(CorrectionRequest $request, Attendance $attendance)

@@ -12,7 +12,6 @@
 <body>
     <header class="header">
         <div class="logo">
-            <a href="{{ route('admin.attendances.index') }}">
                 <img src="{{ asset('svg/logo.svg') }}" alt="COACHTECHロゴ" class="header-logo">
             </a>
         </div>

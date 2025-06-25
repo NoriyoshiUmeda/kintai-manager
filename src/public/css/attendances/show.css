@@ -10,7 +10,7 @@ html, body {
   height: 100%;
 }
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #333;
@@ -212,6 +212,7 @@ input[type="time"] {
   font-weight: 700;
   margin-top: 0.25rem;
   letter-spacing: 0.15rem;
+  white-space: nowrap;
 }
 
 .pending-message {

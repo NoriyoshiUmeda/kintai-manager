@@ -72,7 +72,7 @@ button {
 --------------------------------------------------------------*/
 .tabs {
   list-style: none;
-  margin: 0 0 1rem;
+  margin: 0 0 0.25rem;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
@@ -203,15 +203,16 @@ button {
   }
 
   .tabs {
-    margin-bottom: 2rem;
+    margin-bottom: 0.25rem;
   }
+
   .tab {
     margin-right: 3rem;
     font-size: 18px;
   }
 
   .tabs-underline {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   .list-table th,

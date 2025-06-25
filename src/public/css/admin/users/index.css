@@ -1,0 +1,123 @@
+/* public/css/admin/users/index.css */
+
+/* コンテナ */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  /* タイトル */
+  .detail-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .detail-title-line {
+    width: 8px;
+    height: 36px;
+    background-color: #000;
+    margin-right: 0.5rem;
+  }
+
+  .detail-title-text {
+    font-size: 30px;
+    font-weight: 700;
+    color: #000;
+  }
+  
+  /* カード */
+  .detail-card {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  /* テーブル */
+  .detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+  }
+  .detail-table th,
+  .detail-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    color: #737373;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+  }
+  .detail-table th {
+    background-color: #fff;
+    color: #737373;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+  }
+
+  .detail-table thead th {
+    border-bottom: 3px solid #e1e1e1;
+  }
+
+  .detail-table tbody td {
+    border-bottom: 2px solid #e1e1e1;
+  }
+
+  .detail-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  /* アクションリンク */
+  .link-button {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    color: #000;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+  }
+  .link-button:hover {
+    text-decoration: underline;
+  }
+  
+  /* PC（横幅 1,400px〜1,540px）の調整 */
+@media screen and (min-width: 1400px) {
+    /* コンテナ幅を広めに */
+    .container {
+      max-width: 1100px;
+    }
+    /* テーブルのセル余白を少し増やす */
+    .detail-table th,
+    .detail-table td {
+      padding: 1rem 1.5rem;
+    }
+  }
+  
+  /* タブレット（横幅 768px〜850px）の調整 */
+  @media screen and (min-width: 768px) and (max-width: 850px) {
+    /* コンテナをやや狭めに */
+    .container {
+      max-width: 700px;
+      padding: 1rem;
+    }
+  
+    /* テーブルがはみ出す場合に横スクロールできるように */
+    .detail-card {
+      overflow-x: auto;
+    }
+    .detail-table {
+      min-width: 650px;
+    }
+  
+    /* フォントサイズ・余白をタブレット向けに縮小 */
+    .detail-table th,
+    .detail-table td {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+      letter-spacing: normal;
+    }
+  }
+  

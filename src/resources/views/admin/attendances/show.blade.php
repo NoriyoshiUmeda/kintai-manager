@@ -83,7 +83,7 @@
         <tr>
           <th>備考</th>
           <td class="value-cell comment-cell" colspan="2">
-            <textarea name="comment" class="comment-input" placeholder="備考を入力">{{ old('comment', $attendance->remarks) }}</textarea>
+            <textarea name="comment" class="comment-input" placeholder="備考を入力">{{ old('comment', $attendance->comment) }}</textarea>
             @error('comment')
               <div class="error-message">{{ $message }}</div>
             @enderror
