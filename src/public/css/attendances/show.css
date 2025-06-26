@@ -93,6 +93,7 @@ button {
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.15rem;
+  white-space: nowrap;
 }
 .detail-table th {
   width: 160px;
@@ -222,6 +223,14 @@ input[type="time"] {
   margin-top: 0.25rem;
   letter-spacing: 0.15rem;
   text-align: right;
+}
+
+.btn-submit[disabled],
+.btn-submit:disabled {
+  background-color: #ccc !important;
+  color: #666 !important;
+  cursor: not-allowed !important;
+  /* 必要ならボーダー色なども変えてください */
 }
 
 

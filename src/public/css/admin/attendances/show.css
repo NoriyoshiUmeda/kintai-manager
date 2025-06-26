@@ -141,7 +141,22 @@
     border-radius: 4px;
     transition: background-color 0.2s;
   }
-  .btn-submit:hover { background: #333; }
+
+  /* ボタン通常 */
+.btn-submit {
+  background-color: #000;
+  color: #fff;
+  /* 既存スタイル省略… */
+}
+
+/* disabled 状態（承認済み） */
+.btn-submit:disabled,
+.btn-submit[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+  /* 必要に応じて文字色も調整 */
+}
+
 
   /*─────────────────────────────────────────
    管理者用勤怠詳細画面：レスポンシブ対応
