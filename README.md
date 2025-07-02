@@ -68,7 +68,7 @@ Dockerfile では `php:8.1-fpm` を使用しており、PHP 8.2 以上では依�
 そのため、環境構築時には PHP 8.1 の使用を推奨します。
 
 ## ER図
-![ER diagram]
+![ER diagram](src/index.drawio.png)
 
 ## URL
 - 開発環境： http://localhost/
