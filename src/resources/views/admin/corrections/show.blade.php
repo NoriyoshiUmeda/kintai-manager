@@ -17,11 +17,11 @@
   </div>
 
   @php
-    // コントローラから渡された申請モデル
-    $corr    = $correction;
+    // コントローラから渡された申請モデル／勤怠モデル／ユーザー
+    $corr       = $correction;
     $attendance = $attendance;
     $user       = $user;
-    // 申請で送られてきた休憩情報
+    // 申請で送られてきた休憩情報（配列）
     $breaks     = $corr->requested_breaks;
   @endphp
 
@@ -32,6 +32,7 @@
         <th>名前</th>
         <td class="value-cell" colspan="2">{{ $user->name }}</td>
       </tr>
+
       {{-- 日付 --}}
       <tr>
         <th>日付</th>
@@ -41,6 +42,7 @@
         </td>
         <td></td>
       </tr>
+
       {{-- 申請出勤・退勤 --}}
       <tr>
         <th>出勤・退勤</th>
@@ -51,22 +53,22 @@
         </td>
         <td></td>
       </tr>
-      {{-- 申請休憩 --}}
+
+      {{-- 申請休憩：開始・終了両方あるものだけ表示 --}}
       @foreach($breaks as $i => $b)
-        <tr>
-          <th>{{ $i === 0 ? '休憩' : '休憩' . ($i + 1) }}</th>
-          <td class="value-cell">
-            @if($b['break_start'] && $b['break_end'])
+        @if(! empty($b['break_start']) && ! empty($b['break_end']))
+          <tr>
+            <th>{{ $i === 0 ? '休憩' : '休憩' . ($i + 1) }}</th>
+            <td class="value-cell">
               {{ \Illuminate\Support\Carbon::parse($b['break_start'])->format('H:i') }}
               <span class="tilde">〜</span>
               {{ \Illuminate\Support\Carbon::parse($b['break_end'])->format('H:i') }}
-            @else
-              ー
-            @endif
-          </td>
-          <td></td>
-        </tr>
+            </td>
+            <td></td>
+          </tr>
+        @endif
       @endforeach
+
       {{-- 備考 --}}
       <tr>
         <th>備考</th>

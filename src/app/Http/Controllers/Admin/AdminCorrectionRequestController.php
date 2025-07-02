@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CorrectionRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class AdminCorrectionRequestController extends Controller
 {
@@ -33,13 +35,9 @@ class AdminCorrectionRequestController extends Controller
 
     /**
      * 管理者：修正申請詳細（承認画面）表示
-     *
-     * @param  \App\Models\CorrectionRequest  $correction
-     * @return \Illuminate\View\View
      */
     public function show(CorrectionRequest $correction)
     {
-
         // リレーションロード
         $correction->load(['attendance.user', 'attendance.breaks']);
 
@@ -52,18 +50,39 @@ class AdminCorrectionRequestController extends Controller
 
     /**
      * 管理者：修正申請を承認
-     *
-     * @param  \App\Models\CorrectionRequest  $correction
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function approve(CorrectionRequest $correction)
     {
-        // ステータスを承認済みに更新
-        $correction->status = CorrectionRequest::STATUS_APPROVED;
-        $correction->save();
+        DB::transaction(function() use ($correction) {
+            // ① 対象の勤怠レコードを取得
+            $attendance = $correction->attendance;
+
+            // ② 勤怠本体の時刻・備考を更新（datetime から time 部分に変換）
+            $attendance->clock_in  = Carbon::parse($correction->requested_in)->format('H:i');
+            $attendance->clock_out = Carbon::parse($correction->requested_out)->format('H:i');
+            $attendance->comment   = $correction->comment;
+            $attendance->save();
+
+            // ③ 既存の休憩レコードをすべて削除
+            $attendance->breaks()->delete();
+
+            // ④ 新しい休憩情報（requested_breaks）を再作成
+            foreach ($correction->requested_breaks as $b) {
+                if (! empty($b['break_start']) && ! empty($b['break_end'])) {
+                    $attendance->breaks()->create([
+                        'break_start' => $b['break_start'],
+                        'break_end'   => $b['break_end'],
+                    ]);
+                }
+            }
+
+            // ⑤ 修正申請ステータスを承認済みに更新
+            $correction->status = CorrectionRequest::STATUS_APPROVED;
+            $correction->save();
+        });
 
         return redirect()
             ->route('admin.corrections.show', $correction)
-            ->with('status', '承認が完了しました');
+            ->with('status', '修正申請を承認し、勤怠データを更新しました');
     }
 }
