@@ -42,7 +42,9 @@
               <td>承認待ち</td>
               <td>{{ auth()->user()->name }}</td>
               <td>{{ $req->attendance->work_date->format('Y/m/d') }}</td>
-              <td>{{ $req->comment }}</td>
+              <td class="reason-cell" title="{{ $req->comment }}">
+                {{ $req->comment }}
+              </td>
               <td>{{ $req->created_at->format('Y/m/d') }}</td>
               <td><a href="{{ route('attendances.show', $req->attendance) }}">詳細</a></td>
             </tr>
@@ -72,7 +74,9 @@
               <td>承認済み</td>
               <td>{{ auth()->user()->name }}</td>
               <td>{{ $req->attendance->work_date->format('Y/m/d') }}</td>
-              <td>{{ $req->comment }}</td>
+              <td class="reason-cell" title="{{ $req->comment }}">
+                {{ $req->comment }}
+              </td>
               <td>{{ $req->created_at->format('Y/m/d') }}</td>
               <td><a href="{{ route('attendances.show', $req->attendance) }}">詳細</a></td>
             </tr>

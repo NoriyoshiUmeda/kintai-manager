@@ -30,6 +30,8 @@ return new class extends Migration {
             $table->time('clock_in')->nullable();
             $table->time('clock_out')->nullable();
 
+            $table->text('comment')->nullable();
+
             // タイムスタンプ
             $table->timestamps();
 

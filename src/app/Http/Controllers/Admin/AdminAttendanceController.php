@@ -74,8 +74,9 @@ class AdminAttendanceController extends Controller
     }
 
     return redirect()
-        ->route('admin.attendances.show', $attendance)
-        ->with('success', '勤怠情報を更新しました。');
+        ->route('admin.attendances.index', [
+            'date' => $attendance->work_date->toDateString(),
+        ]);
     }
 
 }

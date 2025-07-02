@@ -9,6 +9,11 @@
 
 @section('content')
 <div class="container">
+    @php
+        // 今日の「YYYY-MM」
+        $currentMonth = \Carbon\Carbon::today()->format('Y-m');
+    @endphp
+
 
     {{-- 1. タイトル部分 --}}
     <div class="attendance-title">
@@ -35,13 +40,20 @@
         </div>
 
         {{-- 翌月ボタン（テキスト＋PNG矢印） --}}
-        <a href="{{ route('attendances.index', ['month' => $nextMonth]) }}" class="month-nav-link">
-            <span class="month-nav-link-text">翌月</span>
-            <img src="{{ asset('images/arrow-right.png') }}"
-                 alt="翌月"
-                 class="month-nav-arrow-img">
-        </a>
-    </div>
+        @if($nextMonth <= $currentMonth)
+    {{-- 今月までならリンク有効 --}}
+    <a href="{{ route('attendances.index', ['month' => $nextMonth]) }}" class="month-nav-link">
+      <span class="month-nav-link-text">翌月</span>
+      <img src="{{ asset('images/arrow-right.png') }}" alt="翌月" class="month-nav-arrow-img">
+    </a>
+  @else
+    {{-- 今月以降は無効 --}}
+    <button type="button" class="month-nav-link" disabled style="opacity:.5;cursor:not-allowed;">
+      <span class="month-nav-link-text">翌月</span>
+      <img src="{{ asset('images/arrow-right.png') }}" alt="翌月" class="month-nav-arrow-img">
+    </button>
+  @endif
+</div>
 
     {{-- 3. テーブルをカード状にラップ --}}
     <div class="table-card">

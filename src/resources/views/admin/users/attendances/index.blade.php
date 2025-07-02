@@ -15,6 +15,11 @@
         <h2 class="attendance-title-text">{{ $user->name }} さんの勤怠一覧</h2>
     </div>
 
+    @php
+        // 今日の YYYY-MM
+        $currentMonth = \Illuminate\Support\Carbon::today()->format('Y-m');
+    @endphp
+
     {{-- 2. 月ナビゲーション --}}
     <div class="month-nav">
         {{-- 前月ボタン --}}
@@ -35,6 +40,7 @@
         </div>
 
         {{-- 翌月ボタン --}}
+        @if($nextMonth <= $currentMonth)
         <a href="{{ route('admin.users.attendances.index', ['user' => $user->id, 'month' => $nextMonth]) }}"
            class="month-nav-link">
             <span class="month-nav-link-text">翌月</span>
@@ -42,6 +48,17 @@
                  alt="翌月"
                  class="month-nav-arrow-img">
         </a>
+        @else
+            <button type="button"
+                    class="month-nav-link"
+                    disabled
+                    style="opacity:0.5;cursor:not-allowed;">
+                <span class="month-nav-link-text">翌月</span>
+                <img src="{{ asset('images/arrow-right.png') }}"
+                     alt="翌月"
+                     class="month-nav-arrow-img">
+            </button>
+        @endif
     </div>
 
     {{-- 3. テーブルをカード状にラップ --}}

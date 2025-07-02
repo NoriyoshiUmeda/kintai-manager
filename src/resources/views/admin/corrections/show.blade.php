@@ -43,7 +43,7 @@
       </tr>
       {{-- 申請出勤・退勤 --}}
       <tr>
-        <th>出勤・退勤（申請）</th>
+        <th>出勤・退勤</th>
         <td class="value-cell">
           {{ \Illuminate\Support\Carbon::parse($corr->requested_in)->format('H:i') }}
           <span class="tilde">〜</span>
@@ -54,7 +54,7 @@
       {{-- 申請休憩 --}}
       @foreach($breaks as $i => $b)
         <tr>
-          <th>{{ $i === 0 ? '休憩' : '休憩' . ($i + 1) }}（申請）</th>
+          <th>{{ $i === 0 ? '休憩' : '休憩' . ($i + 1) }}</th>
           <td class="value-cell">
             @if($b['break_start'] && $b['break_end'])
               {{ \Illuminate\Support\Carbon::parse($b['break_start'])->format('H:i') }}
@@ -69,8 +69,8 @@
       @endforeach
       {{-- 備考 --}}
       <tr>
-        <th>備考（申請理由）</th>
-        <td class="value-cell" colspan="2">{{ $corr->comment }}</td>
+        <th>備考</th>
+        <td class="remark-cell" colspan="2">{{ $corr->comment }}</td>
       </tr>
     </table>
   </div>

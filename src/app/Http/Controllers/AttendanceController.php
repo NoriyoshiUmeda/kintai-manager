@@ -172,25 +172,38 @@ class AttendanceController extends Controller
 
     public function show(Attendance $attendance)
     {
-        // ログインユーザーと異なる勤怠は閲覧不可
+        // 自分以外の勤怠は閲覧不可
         if ($attendance->user_id !== Auth::id()) {
             abort(404);
         }
-
-        // 最新の承認待ち申請を取得
-    $pendingRequest = $attendance
-    ->correctionRequests()
-    ->where('status', CR::STATUS_PENDING)
-    ->latest('id')
-    ->first();
-
-        // ビューに渡す
-    return view('attendances.show', [
-    'attendance'     => $attendance,
-    'pendingRequest' => $pendingRequest,
+    
+        // 最新の承認待ち申請
+        $pendingRequest = $attendance
+            ->correctionRequests()
+            ->where('status', CR::STATUS_PENDING)
+            ->latest('id')
+            ->first();
+    
+        // 表示用の休憩データを必ず “配列” で用意
+        if ($pendingRequest) {
+            // 申請データは JSON カラム（array でキャスト済み）
+            $breaks = collect($pendingRequest->requested_breaks);
+        } else {
+            // 実テーブルからモデル→配列に展開
+            $breaks = $attendance->breaks
+                ->map(fn($b) => [
+                    'break_start' => $b->break_start,
+                    'break_end'   => $b->break_end,
+                ]);
+        }
+    
+        return view('attendances.show', [
+            'attendance'     => $attendance,
+            'pendingRequest' => $pendingRequest,
+            'breaks'         => $breaks,
         ]);
-
     }
+    
 
     public function update(CorrectionRequest $request, Attendance $attendance)
     {

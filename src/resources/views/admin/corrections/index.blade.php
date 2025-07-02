@@ -30,7 +30,7 @@
           <thead>
             <tr>
               <th>状態</th>
-              <th>ユーザー</th>
+              <th>名前</th>
               <th>対象日時</th>
               <th>申請理由</th>
               <th>申請日時</th>
@@ -43,7 +43,9 @@
               <td>承認待ち</td>
               <td>{{ $req->attendance->user->name }}</td>
               <td>{{ $req->attendance->work_date->format('Y/m/d') }}</td>
-              <td>{{ $req->comment }}</td>
+              <td class="reason-cell" title="{{ $req->comment }}">
+                {{ $req->comment }}
+              </td>
               <td>{{ $req->created_at->format('Y/m/d') }}</td>
               <td>
                 <a href="{{ route('admin.corrections.show', $req->id) }}">
@@ -77,7 +79,9 @@
               <td>承認済み</td>
               <td>{{ $req->attendance->user->name }}</td>
               <td>{{ $req->attendance->work_date->format('Y/m/d') }}</td>
-              <td>{{ $req->comment }}</td>
+              <td class="reason-cell" title="{{ $req->comment }}">
+                {{ $req->comment }}
+              </td>
               <td>{{ $req->created_at->format('Y/m/d') }}</td>
               <td>
                 {{-- 承認済みは詳細のみ表示 --}}

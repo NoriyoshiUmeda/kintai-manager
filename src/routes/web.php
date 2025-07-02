@@ -91,6 +91,7 @@ Route::prefix('admin')->group(function () {
         // 管理者用スタッフ一覧／勤怠一覧
         Route::get('users', [AdminUserController::class, 'index'])
              ->name('admin.users.index');
+             
         Route::get('users/{user}/attendances', [AdminUserAttendanceController::class, 'index'])
              ->name('admin.users.attendances.index');
 
