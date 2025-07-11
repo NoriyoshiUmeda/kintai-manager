@@ -170,39 +170,70 @@ class AttendanceController extends Controller
     ]);
     }
 
-    public function show(Attendance $attendance)
-    {
-        // 自分以外の勤怠は閲覧不可
-        if ($attendance->user_id !== Auth::id()) {
-            abort(404);
-        }
-    
-        // 最新の承認待ち申請
-        $pendingRequest = $attendance
-            ->correctionRequests()
-            ->where('status', CR::STATUS_PENDING)
-            ->latest('id')
-            ->first();
-    
-        // 表示用の休憩データを必ず “配列” で用意
-        if ($pendingRequest) {
-            // 申請データは JSON カラム（array でキャスト済み）
-            $breaks = collect($pendingRequest->requested_breaks);
-        } else {
-            // 実テーブルからモデル→配列に展開
-            $breaks = $attendance->breaks
-                ->map(fn($b) => [
-                    'break_start' => $b->break_start,
-                    'break_end'   => $b->break_end,
-                ]);
-        }
-    
-        return view('attendances.show', [
-            'attendance'     => $attendance,
-            'pendingRequest' => $pendingRequest,
-            'breaks'         => $breaks,
-        ]);
+    public function show(Request $request, Attendance $attendance)
+{
+    // 権限チェック
+    if ($attendance->user_id !== Auth::id()) {
+        abort(404);
     }
+
+    // 承認待ち申請
+    $pendingRequest = $attendance
+        ->correctionRequests()
+        ->where('status', CR::STATUS_PENDING)
+        ->latest('id')
+        ->first();
+
+    // corr_id 経由の承認済み申請
+    $approvedRequest = null;
+    if ($request->filled('correction_request_id')) {
+        $approvedRequest = CR::where('id', $request->correction_request_id)
+            ->where('status', CR::STATUS_APPROVED)
+            ->first();
+    }
+
+    // 表示用データを用意
+    if ($approvedRequest) {
+        // 承認済み申請の requested_breaks は配列なのでコレクション化
+        $breaks    = collect($approvedRequest->requested_breaks);
+        $clockIn   = Carbon::parse($approvedRequest->requested_in)->format('H:i');
+        $clockOut  = Carbon::parse($approvedRequest->requested_out)->format('H:i');
+        $comment   = $approvedRequest->comment;
+    } elseif ($pendingRequest) {
+        // 承認待ち申請時は attendance モデルの breaks をコレクション化
+        $breaks    = $attendance->breaks->map(fn($b) => [
+                          'break_start' => $b->break_start,
+                          'break_end'   => $b->break_end,
+                      ]);
+        $clockIn   = old('clock_in', $pendingRequest->requested_in);
+        $clockOut  = old('clock_out', $pendingRequest->requested_out);
+        $comment   = old('comment', $pendingRequest->comment);
+    } else {
+        // 通常表示
+        $breaks    = $attendance->breaks->map(fn($b) => [
+                          'break_start' => $b->break_start,
+                          'break_end'   => $b->break_end,
+                      ]);
+        $clockIn   = $attendance->clock_in;
+        $clockOut  = $attendance->clock_out;
+        $comment   = $attendance->comment;
+    }
+
+    // ここで必ず Collection インスタンスに
+    if (! $breaks instanceof Collection) {
+        $breaks = collect($breaks);
+    }
+
+    return view('attendances.show', [
+        'attendance'       => $attendance,
+        'pendingRequest'   => $pendingRequest,
+        'approvedRequest'  => $approvedRequest,
+        'breaks'           => $breaks,
+        'clockIn'          => $clockIn,
+        'clockOut'         => $clockOut,
+        'comment'          => $comment,
+    ]);
+}
     
 
     public function update(CorrectionRequest $request, Attendance $attendance)

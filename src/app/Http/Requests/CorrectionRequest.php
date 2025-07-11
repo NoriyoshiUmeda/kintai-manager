@@ -55,7 +55,7 @@ class CorrectionRequest extends FormRequest
             // 休憩時間が勤務時間外
             'breaks.*.break_start.after_or_equal'   => '休憩時間が勤務時間外です',
             'breaks.*.break_start.before_or_equal'  => '休憩時間が勤務時間外です',
-            'breaks.*.break_end.after_or_equal'     => '休憩時間が勤務時間外です',
+            'breaks.*.break_end.after_or_equal'     => '休憩開始時間もしくは休憩終了時間が不適切な値です',
             'breaks.*.break_end.before_or_equal'    => '休憩時間が勤務時間外です',
 
             // 備考未入力／文字数超過

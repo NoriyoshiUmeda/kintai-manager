@@ -46,7 +46,14 @@
                 {{ $req->comment }}
               </td>
               <td>{{ $req->created_at->format('Y/m/d') }}</td>
-              <td><a href="{{ route('attendances.show', $req->attendance) }}">詳細</a></td>
+              <td>
+                <a href="{{ route('attendances.show', [
+                    'attendance'             => $req->attendance->id,
+                    'correction_request_id'  => $req->id,
+                ]) }}">
+                  詳細
+                </a>
+              </td>
             </tr>
             @endforeach
           </tbody>
@@ -78,7 +85,14 @@
                 {{ $req->comment }}
               </td>
               <td>{{ $req->created_at->format('Y/m/d') }}</td>
-              <td><a href="{{ route('attendances.show', $req->attendance) }}">詳細</a></td>
+              <td>
+                <a href="{{ route('attendances.show', [
+                    'attendance'             => $req->attendance->id,
+                    'correction_request_id'  => $req->id,
+                ]) }}">
+                  詳細
+                </a>
+              </td>
             </tr>
             @endforeach
           </tbody>
@@ -89,7 +103,6 @@
 </div>
 @endsection
 
-{{-- タブ切り替え用スクリプト --}}
 @push('scripts')
 <script>
   const tabs = document.querySelectorAll('.tabs .tab');
