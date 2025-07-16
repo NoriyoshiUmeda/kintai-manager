@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class User extends Authenticatable
 {
+    use HasFactory;
+
     /**
      * 一括代入を許可するカラム
      *
@@ -15,7 +19,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id'
+        'role_id',
+        'email_verified_at',
+        'remember_token', 
     ];
 
     /**

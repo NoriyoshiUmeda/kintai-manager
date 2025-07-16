@@ -11,11 +11,13 @@ class CorrectionRequest extends FormRequest
     {
         // 管理者は OK、一般ユーザーは自分の勤怠のみ OK
         $attendance = $this->route('attendance');
+        
+        
         if (Auth::guard('admin')->check()) {
             return true;
         }
         return Auth::guard('web')->check()
-            && Auth::id() === optional($attendance)->user_id;
+            && Auth::id() == optional($attendance)->user_id;
     }
 
     public function rules(): array
