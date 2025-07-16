@@ -4,15 +4,22 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CorrectionRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // 管理者は OK、一般ユーザーは自分の勤怠のみ OK
+        
         $attendance = $this->route('attendance');
         
-        
+
+        // テストや通常patchはID渡しなので、ID→モデル変換を明示的にやる
+        if (is_numeric($attendance)) {
+            $attendance = \App\Models\Attendance::find($attendance);
+        }
+
         if (Auth::guard('admin')->check()) {
             return true;
         }
@@ -38,8 +45,16 @@ class CorrectionRequest extends FormRequest
             'breaks.*.break_end'    => [
                 'nullable',
                 'date_format:H:i',
-                'after_or_equal:breaks.*.break_start',
                 'before_or_equal:clock_out',
+                function($attribute, $value, $fail) {
+                    $index = explode('.', $attribute)[1] ?? null;
+                    $breaks = $this->input('breaks', []);
+                    if ($index !== null && isset($breaks[$index]['break_start']) && $value) {
+                        if ($breaks[$index]['break_start'] > $value) {
+                            $fail('休憩開始時間もしくは休憩終了時間が不適切な値です');
+                        }
+                    }
+                }
             ],
 
             // 3. 備考
@@ -64,5 +79,18 @@ class CorrectionRequest extends FormRequest
             'comment.required' => '備考を記入してください',
             'comment.max'      => '備考は255文字以内で入力してください',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $attendance = $this->route('attendance');
+        $attendanceId = is_object($attendance) ? $attendance->id : $attendance;
+
+        throw new HttpResponseException(
+            redirect()
+                ->route('attendances.show', ['attendance' => $attendanceId])
+                ->withInput($this->input())
+                ->withErrors($validator->errors())
+        );
     }
 }

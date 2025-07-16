@@ -56,6 +56,7 @@
   @if (! $isPending && ! $isApproved)
     <form action="{{ route('attendances.update', $attendance) }}" method="POST" class="detail-form" novalidate>
       @csrf
+      @method('PATCH')
       <div class="detail-card">
         <table class="detail-table">
           {{-- 名前 --}}

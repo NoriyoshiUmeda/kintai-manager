@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Models\BreakTime;
 use Illuminate\Http\Request;
-use App\Http\Requests\CorrectionRequest;
+use App\Http\Requests\CorrectionRequest as CorrectionRequestForm;
 use App\Models\CorrectionRequest as CR; 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -173,7 +173,7 @@ class AttendanceController extends Controller
     public function show(Request $request, Attendance $attendance)
 {
     // 権限チェック
-    if ($attendance->user_id !== Auth::id()) {
+    if ($attendance->user_id != Auth::id()) {
         abort(404);
     }
 
@@ -236,10 +236,11 @@ class AttendanceController extends Controller
 }
     
 
-    public function update(CorrectionRequest $request, Attendance $attendance)
+    public function update(CorrectionRequestForm $request, Attendance $attendance)
     {
+        
         // 1. 自分の勤怠以外は404
-        if ($attendance->user_id !== Auth::id()) {
+        if ($attendance->user_id != Auth::id()) {
             abort(404);
         }
 
@@ -259,8 +260,7 @@ class AttendanceController extends Controller
 
 
         // 5. 詳細画面にリダイレクト
-        return redirect()
-            ->route('attendances.show', $attendance)
-            ->with('status', '修正申請を送信しました');
+        return redirect()->route('attendances.show', ['attendance' => $attendance->id])
+    ->with('status', '修正申請を送信しました');
     }
 }

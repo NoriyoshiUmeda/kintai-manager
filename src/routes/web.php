@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/attendances/{attendance}', [AttendanceController::class, 'show'])
          ->name('attendances.show');
-    Route::post('/attendances/{attendance}', [AttendanceController::class, 'update'])
+    Route::patch('/attendances/{attendance}', [AttendanceController::class, 'update'])
          ->name('attendances.update');
 
     Route::get('/corrections', [CorrectionRequestController::class, 'index'])
