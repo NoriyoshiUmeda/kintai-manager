@@ -17,11 +17,11 @@
   </div>
 
   @php
-    // コントローラから渡された申請モデル／勤怠モデル／ユーザー
+
     $corr       = $correction;
     $attendance = $attendance;
     $user       = $user;
-    // 申請で送られてきた休憩情報（配列）
+
     $breaks     = $corr->requested_breaks;
   @endphp
 

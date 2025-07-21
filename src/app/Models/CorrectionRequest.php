@@ -9,8 +9,8 @@ class CorrectionRequest extends Model
 {
     use HasFactory;
 
-    // 必要ならテーブル名を明示
-    // protected $table = 'correction_requests';
+
+
 
     /**
      * JSON を自動的に配列にキャストする設定

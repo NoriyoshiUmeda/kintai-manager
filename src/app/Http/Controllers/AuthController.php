@@ -12,13 +12,13 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    // 会員登録画面表示
+
     public function showRegisterForm()
     {
         return view('auth.register');
     }
 
-    // 会員登録処理
+
     public function register(RegisterRequest $request)
     {
         $validated = $request->validate([
@@ -39,13 +39,13 @@ class AuthController extends Controller
         return redirect()->route('attendances.create');
     }
 
-    // ログイン画面表示
+
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    // ログイン処理
+
     public function login(LoginRequest $request)
     {
         $credentials = $request->validate([
@@ -66,11 +66,11 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        // セッション破棄（CSRF トークンも再生成）
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        // ログイン画面など任意の場所へリダイレクト
+
         return redirect()->route('login.form');
     }
 }

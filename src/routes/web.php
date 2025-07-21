@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CorrectionRequestController;
-// 管理者用
+
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminAttendanceController;
 use App\Http\Controllers\Admin\AdminUserController;
@@ -20,9 +20,9 @@ use App\Http\Controllers\Admin\AdminCorrectionRequestController;
 |
 */
 
-// --------------------------------------------------
-// 会員登録／ログイン（一般ユーザー）
-// --------------------------------------------------
+
+
+
 Route::get('/register', [AuthController::class, 'showRegisterForm'])
      ->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])
@@ -36,9 +36,9 @@ Route::post('/login', [AuthController::class, 'login'])
 Route::post('/logout', [AuthController::class, 'logout'])
      ->name('logout');
 
-// --------------------------------------------------
-// 一般ユーザー 用ルート（認証後）
-// --------------------------------------------------
+
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/attendances/create', [AttendanceController::class, 'create'])
          ->name('attendances.create');
@@ -63,11 +63,11 @@ Route::middleware('auth')->group(function () {
          ->name('corrections.index');
 });
 
-// --------------------------------------------------
-// 管理者 認証（AdminAuthController）
-// --------------------------------------------------
+
+
+
 Route::prefix('admin')->group(function () {
-    // ログイン前（guest:admin）
+
     Route::middleware('guest:admin')->group(function () {
         Route::get('login', [AdminAuthController::class, 'showLoginForm'])
              ->name('admin.login');
@@ -75,12 +75,12 @@ Route::prefix('admin')->group(function () {
              ->name('admin.login.attempt');
     });
 
-    // 認証後（auth:admin）
+
     Route::middleware('auth:admin')->group(function () {
         Route::post('logout', [AdminAuthController::class, 'logout'])
              ->name('admin.logout');
 
-        // 管理者用勤怠一覧／詳細／更新
+
         Route::get('attendances', [AdminAttendanceController::class, 'index'])
              ->name('admin.attendances.index');
         Route::get('attendances/{attendance}', [AdminAttendanceController::class, 'show'])
@@ -88,7 +88,7 @@ Route::prefix('admin')->group(function () {
         Route::patch('attendances/{attendance}', [AdminAttendanceController::class, 'update'])
              ->name('admin.attendances.update');
 
-        // 管理者用スタッフ一覧／勤怠一覧
+
         Route::get('users', [AdminUserController::class, 'index'])
              ->name('admin.users.index');
              
@@ -98,7 +98,7 @@ Route::prefix('admin')->group(function () {
         Route::get('users/{user}/attendances/csv', [AdminUserAttendanceController::class, 'exportcsv'])
              ->name('admin.users.attendances.csv');
 
-         //管理者用修正申請一覧／詳細／承認
+
         Route::get('corrections', [AdminCorrectionRequestController::class, 'index'])
              ->name('admin.corrections.index');
         Route::get('corrections/{correction}', [AdminCorrectionRequestController::class, 'show'])

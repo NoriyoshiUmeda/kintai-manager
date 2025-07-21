@@ -101,7 +101,7 @@
 
 @push('scripts')
 <script>
-  // タブ切り替えスクリプト（一般ユーザー画面と同じ）
+
   const tabs = document.querySelectorAll('.tabs .tab');
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {

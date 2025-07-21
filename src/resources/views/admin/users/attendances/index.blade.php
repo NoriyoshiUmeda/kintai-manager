@@ -16,7 +16,7 @@
     </div>
 
     @php
-        // 今日の YYYY-MM
+
         $currentMonth = \Illuminate\Support\Carbon::today()->format('Y-m');
     @endphp
 

@@ -16,7 +16,7 @@ class BreakFunctionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        // テストの「今」を固定
+
         Carbon::setTestNow(Carbon::create(2025, 7, 1, 9, 0, 0));
     }
 
@@ -27,7 +27,7 @@ class BreakFunctionTest extends TestCase
     {
         $now = Carbon::now();
 
-        // (1) 出勤中ステータスのとき
+
         $attendance = Attendance::make([
             'status' => Attendance::STATUS_IN_PROGRESS,
         ]);
@@ -36,21 +36,21 @@ class BreakFunctionTest extends TestCase
             'currentDateTime' => $now,
         ])->render();
 
-        // 「休憩入」ボタンが出ている
+
         $this->assertStringContainsString('>休憩入<', $html);
-        // まだ「休憩戻」は出さない
+
         $this->assertStringNotContainsString('>休憩戻<', $html);
 
-        // (2) 休憩中ステータスにすると…
+
         $attendance->status = Attendance::STATUS_ON_BREAK;
         $html2 = view('attendances.create', [
             'attendance'      => $attendance,
             'currentDateTime' => $now,
         ])->render();
 
-        // 「休憩中」バッジが出ていて
+
         $this->assertStringContainsString('<span class="status-badge">休憩中</span>', $html2);
-        // 「休憩入」ボタンは消えている
+
         $this->assertStringNotContainsString('>休憩入<', $html2);
     }
 
@@ -61,7 +61,7 @@ class BreakFunctionTest extends TestCase
     {
         $now = Carbon::now();
 
-        // (1) 休憩中ステータスのとき
+
         $attendance = Attendance::make([
             'status' => Attendance::STATUS_ON_BREAK,
         ]);
@@ -70,19 +70,19 @@ class BreakFunctionTest extends TestCase
             'currentDateTime' => $now,
         ])->render();
 
-        // 「休憩戻」ボタンが出ている
+
         $this->assertStringContainsString('>休憩戻<', $html);
 
-        // (2) 再び出勤中ステータスにすると…
+
         $attendance->status = Attendance::STATUS_IN_PROGRESS;
         $html2 = view('attendances.create', [
             'attendance'      => $attendance,
             'currentDateTime' => $now,
         ])->render();
 
-        // 「出勤中」バッジが出ていて
+
         $this->assertStringContainsString('<span class="status-badge">出勤中</span>', $html2);
-        // 「休憩戻」ボタンは消えている
+
         $this->assertStringNotContainsString('>休憩戻<', $html2);
     }
 
@@ -126,7 +126,7 @@ class BreakFunctionTest extends TestCase
             'clock_out' => '18:00:00',
         ]);
 
-        // 10分休憩を2回
+
         BreakTime::create([
             'attendance_id' => $att->id,
             'break_start'   => '12:00:00',
@@ -141,7 +141,7 @@ class BreakFunctionTest extends TestCase
         $this->actingAs($user);
         $response = $this->get(route('attendances.index'));
 
-        // 休憩合計20分と実働8:40が見える
+
         $response->assertSee('0:20');
         $response->assertSee('8:40');
     }

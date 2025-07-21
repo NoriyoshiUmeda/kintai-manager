@@ -24,7 +24,7 @@ class LoginTest extends TestCase
      */
     public function email_is_required()
     {
-        // （認証前のバリデーションなのでユーザー作成は不要）
+
 
         $response = $this->post(route('login'), [
             'email'    => '',
@@ -67,13 +67,13 @@ class LoginTest extends TestCase
      */
     public function email_must_be_registered()
     {
-        // 正しいユーザーをひとり作成
+
         User::factory()->create([
             'email'    => 'user@example.com',
             'password' => bcrypt('password'),
         ]);
 
-        // 存在しないメールアドレスでログイン
+
         $response = $this->post(route('login'), [
             'email'    => 'wrong@example.com',
             'password' => 'password',
@@ -100,7 +100,7 @@ class LoginTest extends TestCase
             'password' => bcrypt('password'),
         ]);
 
-        // 誤ったパスワードでログイン
+
         $response = $this->post(route('login'), [
             'email'    => 'user@example.com',
             'password' => 'wrongpass',
@@ -131,10 +131,10 @@ class LoginTest extends TestCase
             'password' => 'password',
         ]);
 
-        // 打刻画面にリダイレクトされる
+
         $response->assertRedirect(route('attendances.create'));
 
-        // 正しくログイン状態になっている
+
         $this->assertAuthenticatedAs($user);
     }
 }

@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
     }
 
     /**
@@ -29,12 +29,12 @@ class AppServiceProvider extends ServiceProvider
         View::composer('layouts.*', function ($view) {
             $status = null;
             if (Auth::check()) {
-                // 当日分のレコードを取得
+
                 $attendance = Auth::user()
                     ->attendances()
                     ->where('work_date', Carbon::today())
                     ->first();
-                // テーブル定義では 3 = 退勤済
+
                 $status = optional($attendance)->status;
             }
             $view->with('todayStatus', $status);

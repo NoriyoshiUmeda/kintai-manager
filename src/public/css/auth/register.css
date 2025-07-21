@@ -6,7 +6,7 @@ body {
 
 .main {
     padding: 2rem;
-    max-width: 500px;   /* 必要に応じて調整 */
+    max-width: 500px;
     margin: 3rem auto;
 }
 
@@ -17,18 +17,16 @@ body {
     margin-bottom: 2rem;
 }
 
-/* ── フォーム本体 ── */
 .form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;        /* まず親コンテナいっぱいに広げる */
+    width: 100%;
 }
 
-/* ── 各入力のグループ ── */
 .form-group {
     width: 100%;
-    max-width: 680px;   /* デスクトップ時の上限 */
+    max-width: 680px;
     margin-bottom: 1rem;
 }
 
@@ -39,11 +37,10 @@ label {
     margin-bottom: 0.25rem;
 }
 
-/* ── 入力欄 ── */
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 100%;        /* 親の .form-group に合わせる */
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+    width: 100%;
     height: 45px;
     padding: 10px;
     border-radius: 4px;
@@ -51,18 +48,16 @@ input[type="password"] {
     border: 1px solid black;
 }
 
-/* ── エラーメッセージ ── */
 .error {
     color: red;
     font-size: 0.875rem;
     margin-top: 0.25rem;
 }
 
-/* ── 送信ボタン ── */
 .btn {
     background-color: #000;
     width: 100%;
-    max-width: 680px;   /* 入力欄と同じ上限 */
+    max-width: 680px;
     height: 60px;
     color: #fff;
     border: none;
@@ -88,10 +83,9 @@ input[type="password"] {
     text-decoration: underline;
 }
 
-/* ======== タブレット (768px～850px) ======== */
 @media screen and (min-width: 768px) and (max-width: 850px) {
     .main {
-        max-width: 90%;   /* 親コンテナをもう少し広げる */
+        max-width: 90%;
     }
     label {
         font-size: 20px;
@@ -101,7 +95,6 @@ input[type="password"] {
     }
 }
 
-/* ======== PC ワイド (1400px～) ======== */
 @media screen and (min-width: 1400px) {
     .main {
         max-width: 800px;

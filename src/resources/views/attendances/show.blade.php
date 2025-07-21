@@ -17,24 +17,24 @@
   @php
     use Illuminate\Support\Carbon;
 
-    // 申請状態判定
+
     $isApproved = isset($approvedRequest) && $approvedRequest;
     $isPending  = isset($pendingRequest)  && $pendingRequest;
 
     if ($isApproved) {
-        // 承認済み申請を優先表示
+
         $displayIn      = Carbon::parse($approvedRequest->requested_in)->format('H:i');
         $displayOut     = Carbon::parse($approvedRequest->requested_out)->format('H:i');
         $displayBreaks  = collect($approvedRequest->requested_breaks);
         $displayComment = $approvedRequest->comment;
     } elseif ($isPending) {
-        // 承認待ち申請を次に表示
+
         $displayIn      = Carbon::parse($pendingRequest->requested_in)->format('H:i');
         $displayOut     = Carbon::parse($pendingRequest->requested_out)->format('H:i');
         $displayBreaks  = collect($pendingRequest->requested_breaks);
         $displayComment = $pendingRequest->comment;
     } else {
-        // 通常表示・編集用データ
+
         $displayIn      = old('clock_in', optional($attendance->clock_in ? Carbon::parse($attendance->clock_in) : null)->format('H:i'));
         $displayOut     = old('clock_out', optional($attendance->clock_out ? Carbon::parse($attendance->clock_out) : null)->format('H:i'));
         $displayBreaks  = collect(old(
@@ -48,7 +48,7 @@
         $displayComment = old('comment', $attendance->comment);
     }
 
-    // 編集フォーム用に空行を1つ追加（編集フォーム表示時のみ使う）
+
     $formBreaks = $displayBreaks->concat([['break_start' => '', 'break_end' => '']]);
   @endphp
 

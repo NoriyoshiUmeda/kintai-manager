@@ -38,16 +38,16 @@ class AdminCorrectionRequestTest extends TestCase
     {
         parent::setUp();
 
-        // テスト時刻を固定
+
         Carbon::setTestNow(Carbon::create(2025, 7, 20, 9, 0, 0));
 
-        // 管理者ユーザーを作成＆認証
+
         $this->admin = User::factory()->create([
             'role_id' => 1,
         ]);
         $this->actingAs($this->admin, 'admin');
 
-        // 勤怠データを作成
+
         $this->attendance = Attendance::factory()->create([
             'user_id'   => $this->admin->id,
             'work_date' => '2025-07-20',
@@ -56,14 +56,14 @@ class AdminCorrectionRequestTest extends TestCase
             'comment'   => '元コメント',
         ]);
 
-        // 元の休憩
+
         BreakTime::factory()->create([
             'attendance_id' => $this->attendance->id,
             'break_start'   => '12:00:00',
             'break_end'     => '13:00:00',
         ]);
 
-        // pending の申請を作成
+
         $this->pendingReq = CorrectionRequest::create([
             'attendance_id'    => $this->attendance->id,
             'user_id'          => $this->admin->id,
@@ -76,7 +76,7 @@ class AdminCorrectionRequestTest extends TestCase
             'status'           => CorrectionRequest::STATUS_PENDING,
         ]);
 
-        // approved の申請を作成
+
         $this->approvedReq = CorrectionRequest::create([
             'attendance_id'    => $this->attendance->id,
             'user_id'          => $this->admin->id,
@@ -90,7 +90,7 @@ class AdminCorrectionRequestTest extends TestCase
         ]);
     }
 
-    /** @test */
+    
     public function index_shows_pending_and_approved_requests()
     {
         $res = $this->get(route('admin.corrections.index'));
@@ -100,39 +100,39 @@ class AdminCorrectionRequestTest extends TestCase
             ->assertSeeText('申請コメント2'); // approved
     }
 
-    /** @test */
+    
     public function show_displays_requested_data_not_actual_attendance()
     {
         $res = $this->get(route('admin.corrections.show', $this->pendingReq));
 
         $res->assertStatus(200)
-            // 申請時点の出勤・退勤
+
             ->assertSee('08:00')
             ->assertSee('16:00')
-            // 申請時点の休憩
+
             ->assertSee('12:30')
             ->assertSee('13:15')
-            // コメント
+
             ->assertSee('申請コメント1')
-            // 元の勤怠データは出ない
+
             ->assertDontSee('09:00')
             ->assertDontSee('17:00');
     }
 
-    /** @test */
+    
     public function approve_updates_status_and_attendance_data()
     {
         $res = $this->patch(route('admin.corrections.approve', $this->pendingReq));
 
         $res->assertRedirect(route('admin.corrections.show', $this->pendingReq));
 
-        // ステータスが APPROVED に変わる
+
         $this->assertDatabaseHas('correction_requests', [
             'id'     => $this->pendingReq->id,
             'status' => CorrectionRequest::STATUS_APPROVED,
         ]);
 
-        // Attendance が申請内容で更新される（秒なしフォーマット）
+
         $this->assertDatabaseHas('attendances', [
             'id'        => $this->attendance->id,
             'clock_in'  => '08:00',
@@ -140,7 +140,7 @@ class AdminCorrectionRequestTest extends TestCase
             'comment'   => '申請コメント1',
         ]);
 
-        // 既存休憩は削除（秒なし）、申請時の休憩が登録される
+
         $this->assertDatabaseMissing('breaks', [
             'attendance_id' => $this->attendance->id,
             'break_start'   => '12:00',

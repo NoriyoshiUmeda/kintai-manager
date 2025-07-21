@@ -61,7 +61,7 @@
             <tbody>
                 @forelse($attendances as $att)
                     @php
-                        // 休憩合計（分）
+
                         $breakMin = $att->breaks->reduce(function($sum,$b){
                             if($b->break_start&&$b->break_end){
                                 $s=\Illuminate\Support\Carbon::parse($b->break_start);
@@ -73,7 +73,7 @@
                         $breakDisplay = $breakMin
                             ? floor($breakMin/60).':'.sprintf('%02d',$breakMin%60)
                             : '';
-                        // 実働
+
                         if($att->clock_in&&$att->clock_out){
                             $in = \Illuminate\Support\Carbon::parse($att->clock_in);
                             $out= \Illuminate\Support\Carbon::parse($att->clock_out);

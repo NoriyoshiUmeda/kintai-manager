@@ -10,7 +10,7 @@ class RoleSeeder extends Seeder
 {
     public function run()
     {
-        // もし roles テーブルが空なら、最低限必要なロールを入れておく
+
         DB::table('roles')->insert([
             [
                 'id'         => 1,

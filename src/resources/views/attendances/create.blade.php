@@ -20,7 +20,7 @@
     {{-- 日付・現在時刻表示 --}}
     <div class="date-time text-center mb-6">
         @php
-            // 0=日曜,1=月曜…6=土曜 のインデックスを漢字に変換
+
             $kanjiWeekdays = ['日','月','火','水','木','金','土'];
             $weekdayKanji = $kanjiWeekdays[$currentDateTime->dayOfWeek];
         @endphp

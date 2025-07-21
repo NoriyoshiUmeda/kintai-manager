@@ -10,8 +10,8 @@ class Attendance extends Model
 {
     use HasFactory;
 
-    // 明示的にテーブル名を指定する場合はこちらを有効化
-    // protected $table = 'attendances';
+
+
 
     /**
      * キャスト設定

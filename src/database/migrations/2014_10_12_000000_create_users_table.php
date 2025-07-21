@@ -8,15 +8,20 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id(); 
+            $table->id();
             $table->string('name', 255);
             $table->string('email', 255)->unique();
+            $table->timestamp('email_verified_at')->nullable(); // ←追加
             $table->string('password', 255);
+
+            // 権限関連
             $table->unsignedBigInteger('role_id')->default(1);
             $table->foreign('role_id')
                   ->references('id')->on('roles')
                   ->onDelete('cascade');
-            $table->timestamps(); 
+
+            $table->rememberToken(); // ←追加
+            $table->timestamps();
         });
     }
 

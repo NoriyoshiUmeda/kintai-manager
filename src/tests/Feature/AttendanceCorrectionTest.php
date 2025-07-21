@@ -20,7 +20,7 @@ class AttendanceCorrectionTest extends TestCase
     {
         parent::setUp();
 
-        // ユーザーと出勤情報を用意
+
         $this->user = User::factory()->create();
         $this->attendance = Attendance::factory()->create([
             'user_id'   => $this->user->id,
@@ -35,7 +35,7 @@ class AttendanceCorrectionTest extends TestCase
     }
     
 
-    /** @test 出勤時間が退勤時間より後→エラー */
+    
     public function clock_in_after_clock_out_shows_error()
     {
         $response = $this->patch(route('attendances.update', ['attendance' => $this->attendance->id]), [
@@ -51,7 +51,7 @@ class AttendanceCorrectionTest extends TestCase
             ->assertSee('出勤時間もしくは退勤時間が不適切な値です');
     }
 
-    /** @test 休憩開始時間が退勤時間より後→エラー */
+    
     public function break_start_after_clock_out_shows_error()
     {
         $response = $this->patch(route('attendances.update', ['attendance' => $this->attendance->id]), [
@@ -67,7 +67,7 @@ class AttendanceCorrectionTest extends TestCase
             ->assertSee('休憩時間が勤務時間外です');
     }
 
-    /** @test 休憩終了時間が退勤時間より後→エラー */
+    
     public function break_end_after_clock_out_shows_error()
     {
         $response = $this->patch(route('attendances.update', ['attendance' => $this->attendance->id]), [
@@ -83,7 +83,7 @@ class AttendanceCorrectionTest extends TestCase
             ->assertSee('休憩時間が勤務時間外です');
     }
 
-    /** @test 備考未入力→エラー */
+    
     public function comment_is_required()
     {
         $response = $this->patch(route('attendances.update', ['attendance' => $this->attendance->id]), [
@@ -99,7 +99,7 @@ class AttendanceCorrectionTest extends TestCase
             ->assertSee('備考を記入してください');
     }
 
-    /** @test 修正申請が実行される */
+    
     public function correction_request_is_created()
 {
     $data = [
@@ -112,7 +112,7 @@ class AttendanceCorrectionTest extends TestCase
     $response = $this->patch(route('attendances.update', ['attendance' => $this->attendance->id]), $data);
     $response->assertRedirect();
 
-    // ★ここを修正！！
+
     $date = $this->attendance->work_date instanceof \Carbon\Carbon
         ? $this->attendance->work_date->format('Y-m-d')
         : date('Y-m-d', strtotime($this->attendance->work_date));
@@ -127,7 +127,7 @@ class AttendanceCorrectionTest extends TestCase
     ]);
 }
 
-    /** @test 「承認待ち」に自分の申請が全て表示される */
+    
     public function pending_correction_request_appears_in_list()
     {
         CorrectionRequest::factory()->create([
@@ -142,7 +142,7 @@ class AttendanceCorrectionTest extends TestCase
             ->assertSee('承認待ちテスト');
     }
 
-    /** @test 「承認済み」に管理者が承認した申請が全て表示される */
+    
     public function approved_correction_request_appears_in_list()
     {
         CorrectionRequest::factory()->create([
@@ -157,7 +157,7 @@ class AttendanceCorrectionTest extends TestCase
             ->assertSee('承認済みテスト');
     }
 
-    /** @test 申請詳細画面に遷移できる */
+    
     public function can_show_correction_request_detail()
     {
         $correction = CorrectionRequest::factory()->create([

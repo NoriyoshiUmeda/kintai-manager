@@ -15,7 +15,7 @@ class ClockOutTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        // テスト時刻を固定（17:00）
+
         Carbon::setTestNow(Carbon::create(2025, 7, 1, 17, 0, 0));
     }
 
@@ -26,7 +26,7 @@ class ClockOutTest extends TestCase
     {
         $now = Carbon::now();
 
-        // — 出勤中の場合 —
+
         $attendance = Attendance::make([
             'status' => Attendance::STATUS_IN_PROGRESS,
         ]);
@@ -35,18 +35,18 @@ class ClockOutTest extends TestCase
             'currentDateTime' => $now,
         ])->render();
 
-        // 「退勤」ボタンがあり、「退勤済」バッジはない
+
         $this->assertStringContainsString('>退勤<', $html1);
         $this->assertStringNotContainsString('<span class="status-badge">退勤済</span>', $html1);
 
-        // — 退勤済の場合 —
+
         $attendance->status = Attendance::STATUS_COMPLETED;
         $html2 = view('attendances.create', [
             'attendance'      => $attendance,
             'currentDateTime' => $now,
         ])->render();
 
-        // 「退勤済」バッジがあり、ボタンは消えている
+
         $this->assertStringContainsString('<span class="status-badge">退勤済</span>', $html2);
         $this->assertStringNotContainsString('>退勤<', $html2);
     }
@@ -75,7 +75,7 @@ class ClockOutTest extends TestCase
      */
     public function admin_can_see_clock_out_time_in_index()
     {
-        // 管理者ユーザー(role_id=2)を用意して、退勤済レコードを作成
+
         $admin = User::factory()->create(['role_id' => 2]);
         Attendance::create([
             'user_id'   => $admin->id,
@@ -85,7 +85,7 @@ class ClockOutTest extends TestCase
             'clock_out' => '18:30:00',
         ]);
 
-        // DB上に18:30:00が保存されていることを確認
+
         $this->assertDatabaseHas('attendances', [
             'user_id'   => $admin->id,
             'clock_out' => '18:30:00',

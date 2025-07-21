@@ -11,7 +11,7 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        // 管理者
+
         DB::table('users')->insert([
             'name'       => '管理者',
             'email'      => 'user1@example.com',
@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
 
-        // 一般ユーザ
+
         DB::table('users')->insert([
             'name'       => '一般',
             'email'      => 'user2@example.com',

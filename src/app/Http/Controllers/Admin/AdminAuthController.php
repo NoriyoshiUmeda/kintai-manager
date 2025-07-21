@@ -31,7 +31,7 @@ class AdminAuthController extends Controller
     if (Auth::guard('admin')->attempt($credentials, $remember)) {
         $request->session()->regenerate();
 
-        // ★ ここを intended() から route() に変更
+
         return redirect()->route('admin.attendances.index');
     }
 

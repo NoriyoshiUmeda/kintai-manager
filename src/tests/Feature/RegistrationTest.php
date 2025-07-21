@@ -99,13 +99,13 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        // DBに保存されていること
+
         $this->assertDatabaseHas('users', [
             'email' => 'user@example.com',
             'name'  => 'テストユーザー',
         ]);
 
-        // 通常はログイン画面 or 打刻画面にリダイレクト
+
         $response->assertRedirect(route('attendances.create'));
     }
 }

@@ -3,77 +3,80 @@
 /*--------------------------------------------------------------
 リセット & 基本設定
 --------------------------------------------------------------*/
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-html, body {
-  height: 100%;
+html,
+body {
+    height: 100%;
 }
 body {
-  font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #333;
-  background-color: #f2f2f2;
-  line-height: 1.4;
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #333;
+    background-color: #f2f2f2;
+    line-height: 1.4;
 }
 a {
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  background: none;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
 }
 
 /*--------------------------------------------------------------
 コンテナ & レイアウト
 --------------------------------------------------------------*/
 .container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
 }
 
 /*--------------------------------------------------------------
 タイトル部分
 --------------------------------------------------------------*/
 .detail-title {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
 }
 .detail-title-line {
-  width: 8px;
-  height: 2rem;
-  background: #000;
-  margin-right: 0.75rem;
+    width: 8px;
+    height: 2rem;
+    background: #000;
+    margin-right: 0.75rem;
 }
 .detail-title-text {
-  font-size: 30px;
-  font-weight: 700;
-  color: #000;
+    font-size: 30px;
+    font-weight: 700;
+    color: #000;
 }
 
 /*--------------------------------------------------------------
 カード枠
 --------------------------------------------------------------*/
 .detail-card {
-  width: 100%;
-  margin: 0 auto;
-  background: #fff;
-  border-radius: 10px;
-  padding: 0;
-  overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 10px;
+    padding: 0;
+    overflow: hidden;
 }
 .detail-card .detail-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
 }
 
 /*--------------------------------------------------------------
@@ -81,212 +84,205 @@ button {
 --------------------------------------------------------------*/
 
 .detail-table {
-  width: 100%;
-  table-layout: auto;
-  border-collapse: collapse;
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
 }
 
 .detail-table th,
 .detail-table td {
-  padding: 1.25rem;
-  height: 60px;
-  vertical-align: middle;
-  border-bottom: 2px solid #e1e1e1;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.15rem;
-  white-space: nowrap;
+    padding: 1.25rem;
+    height: 60px;
+    vertical-align: middle;
+    border-bottom: 2px solid #e1e1e1;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+    white-space: nowrap;
 }
 .detail-table th {
-  width: 160px;
-  padding-right: 20rem;
-  color: #737373;
-  text-align: left;
-  white-space: nowrap;
+    width: 160px;
+    padding-right: 20rem;
+    color: #737373;
+    text-align: left;
+    white-space: nowrap;
 }
 .detail-table td {
-  width: auto;
-  color: #000;
+    width: auto;
+    color: #000;
 }
 .detail-table tr:last-child th,
 .detail-table tr:last-child td {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 /*--------------------------------------------------------------
 入力フィールド + チルダ
 --------------------------------------------------------------*/
 .input-cell-inner {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
 }
 .time-input {
-  height: 28px;
-  width: 103px;
-  padding: 0.25rem 0.5rem;
-  font-size: 16px;
-  font-weight: 700;
-  text-align: center;
-  color: #000;
-  background: #fff;
-  border: 1px solid #e1e1e1;
-  border-radius: 4px;
-  appearance: none;
-  letter-spacing: 0.15rem;
-  font-family: 'Inter', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    height: 28px;
+    width: 103px;
+    padding: 0.25rem 0.5rem;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    color: #000;
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    appearance: none;
+    letter-spacing: 0.15rem;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 .tilde {
-  font-size: 16px;
-  font-weight: 700;
-  margin: 0 1rem;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 1rem;
 }
 
-input[type="time"]::-webkit-calendar-picker-indicator,
-input[type="time"]::-webkit-clear-button,
-input[type="time"]::-webkit-inner-spin-button,
-input[type="time"]::-webkit-outer-spin-button {
-  display: none;
-  -webkit-appearance: none;
+input[type='time']::-webkit-calendar-picker-indicator,
+input[type='time']::-webkit-clear-button,
+input[type='time']::-webkit-inner-spin-button,
+input[type='time']::-webkit-outer-spin-button {
+    display: none;
+    -webkit-appearance: none;
 }
-input[type="time"] {
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
-  appearance: none;
-  background-color: transparent;
-  color-scheme: light;
+input[type='time'] {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: none;
+    background-color: transparent;
+    color-scheme: light;
 }
 
 .work-year {
-  margin-right: 9rem; 
+    margin-right: 9rem;
 }
-
 
 /*--------------------------------------------------------------
 備考入力欄
 --------------------------------------------------------------*/
 .comment-input {
-  display: block;
-  width: 316px;
-  height: 72px;
-  padding: 0.75rem;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.15rem;
-  color: #000;
-  background: #fff;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  resize: none;
-  box-sizing: border-box;
+    display: block;
+    width: 316px;
+    height: 72px;
+    padding: 0.75rem;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+    color: #000;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    resize: none;
+    box-sizing: border-box;
 }
 
-/* 詳細画面の備考だけ折り返して全文表示 */
 .remark-cell {
-  /* 通常は nowrap かもしれないので上書き */
-  white-space: normal !important;
-  /* 単語の途中でも折り返す */
-  word-break: break-all;
-  /* 踏み外し防止 */
-  overflow-wrap: break-word;
-  /* 行間や余白が必要なら足して下さい */
-}
+    white-space: normal !important;
 
+    word-break: break-all;
+
+    overflow-wrap: break-word;
+}
 
 /*--------------------------------------------------------------
 修正ボタン
 --------------------------------------------------------------*/
 .button-wrapper {
-  text-align: right;
-  margin-top: 1.5rem;
-  margin-bottom: 3rem;
+    text-align: right;
+    margin-top: 1.5rem;
+    margin-bottom: 3rem;
 }
 .btn-submit {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 130px;
-  height: 50px;
-  background: #000;
-  color: #fff;
-  font-size: 22px;
-  font-weight: 700;
-  border-radius: 5px;
-  letter-spacing: 0.15rem;
-  transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 130px;
+    height: 50px;
+    background: #000;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    border-radius: 5px;
+    letter-spacing: 0.15rem;
+    transition: background-color 0.2s;
 }
 .btn-submit:hover {
-  background: #333;
+    background: #333;
 }
-/*バリデーションメッセージ*/
+
 .error-message {
-  color: #ff0000;  /* 赤色 */
-  font-size: 16px;
-  font-weight: 700;
-  margin-top: 0.25rem;
-  letter-spacing: 0.15rem;
-  white-space: nowrap;
+    color: #ff0000;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 0.25rem;
+    letter-spacing: 0.15rem;
+    white-space: nowrap;
 }
 
 .pending-message {
-  color: #ff0000;  /* 赤色 */
-  font-size: 18px;
-  font-weight: 800;
-  margin-top: 0.25rem;
-  letter-spacing: 0.15rem;
-  text-align: right;
+    color: #ff0000;
+    font-size: 18px;
+    font-weight: 800;
+    margin-top: 0.25rem;
+    letter-spacing: 0.15rem;
+    text-align: right;
 }
 
 .btn-submit[disabled],
 .btn-submit:disabled {
-  background-color: #ccc !important;
-  color: #666 !important;
-  cursor: not-allowed !important;
-  /* 必要ならボーダー色なども変えてください */
+    background-color: #ccc !important;
+    color: #666 !important;
+    cursor: not-allowed !important;
 }
-
 
 /*--------------------------------------------------------------
 レスポンシブ対応
 --------------------------------------------------------------*/
 @media screen and (max-width: 850px) and (min-width: 768px) {
-  .detail-title-text {
-    font-size: 24px;
-  }
-  .detail-table th,
-  .detail-table td {
-    font-size: 14px;
-    padding: 1rem;
-  }
-  .time-input,
-  .tilde {
-    font-size: 14px;
-    height: 34px;
-  }
-  .btn-submit {
-    width: 100%;
-    font-size: 18px;
-    height: 44px;
-  }
+    .detail-title-text {
+        font-size: 24px;
+    }
+    .detail-table th,
+    .detail-table td {
+        font-size: 14px;
+        padding: 1rem;
+    }
+    .time-input,
+    .tilde {
+        font-size: 14px;
+        height: 34px;
+    }
+    .btn-submit {
+        width: 100%;
+        font-size: 18px;
+        height: 44px;
+    }
 }
 @media screen and (min-width: 1400px) and (max-width: 1540px) {
-  .container {
-    max-width: 1100px;
-    padding: 2rem 2rem;
-  }
-  .detail-title-text {
-    font-size: 32px;
-  }
-  .detail-table th,
-  .detail-table td {
-    font-size: 17px;
-    padding: 1.25rem;
-  }
-  .time-input,
-  .tilde {
-    font-size: 16px;
-    height: 38px;
-  }
+    .container {
+        max-width: 1100px;
+        padding: 2rem 2rem;
+    }
+    .detail-title-text {
+        font-size: 32px;
+    }
+    .detail-table th,
+    .detail-table td {
+        font-size: 17px;
+        padding: 1.25rem;
+    }
+    .time-input,
+    .tilde {
+        font-size: 16px;
+        height: 38px;
+    }
 }

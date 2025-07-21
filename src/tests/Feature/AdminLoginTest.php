@@ -12,7 +12,7 @@ class AdminLoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** テスト実行前に roles テーブルをシード */
+    
     protected $seed   = true;
     protected $seeder = RoleSeeder::class;
 
@@ -54,7 +54,7 @@ class AdminLoginTest extends TestCase
      */
     public function admin_email_must_be_registered()
     {
-        // 別のメールで管理者ユーザーを作成
+
         User::factory()->create([
             'email'    => 'admin@example.com',
             'password' => bcrypt('password'),
@@ -99,7 +99,7 @@ class AdminLoginTest extends TestCase
      */
     public function admin_can_login_with_valid_credentials()
     {
-        // 日付固定（リダイレクト先のパラメータ検証用）
+
         Carbon::setTestNow('2025-07-15');
 
         $admin = User::factory()->create([
@@ -113,10 +113,10 @@ class AdminLoginTest extends TestCase
             'password' => 'password',
         ]);
 
-        // 管理者ガードで認証されていること
+
         $this->assertAuthenticatedAs($admin, 'admin');
 
-        // 管理者トップ（勤怠一覧）へリダイレクト
+
         $response->assertRedirect(route('admin.attendances.index'));
     }
 }

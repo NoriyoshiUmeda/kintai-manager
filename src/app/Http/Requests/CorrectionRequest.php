@@ -15,7 +15,7 @@ class CorrectionRequest extends FormRequest
         $attendance = $this->route('attendance');
         
 
-        // テストや通常patchはID渡しなので、ID→モデル変換を明示的にやる
+
         if (is_numeric($attendance)) {
             $attendance = \App\Models\Attendance::find($attendance);
         }
@@ -30,11 +30,11 @@ class CorrectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 1. 出勤／退勤
+
             'clock_in'  => ['required', 'date_format:H:i', 'before:clock_out'],
             'clock_out' => ['required', 'date_format:H:i', 'after:clock_in'],
 
-            // 2. 休憩開始／終了
+
             'breaks'                => ['array'],
             'breaks.*.break_start'  => [
                 'nullable',
@@ -57,7 +57,7 @@ class CorrectionRequest extends FormRequest
                 }
             ],
 
-            // 3. 備考
+
             'comment' => ['required', 'string', 'max:255'],
         ];
     }
@@ -65,17 +65,17 @@ class CorrectionRequest extends FormRequest
     public function messages(): array
     {
         return [
-            // 出退勤の逆転
+
             'clock_in.before'  => '出勤時間もしくは退勤時間が不適切な値です',
             'clock_out.after'  => '出勤時間もしくは退勤時間が不適切な値です',
 
-            // 休憩時間が勤務時間外
+
             'breaks.*.break_start.after_or_equal'   => '休憩時間が勤務時間外です',
             'breaks.*.break_start.before_or_equal'  => '休憩時間が勤務時間外です',
             'breaks.*.break_end.after_or_equal'     => '休憩開始時間もしくは休憩終了時間が不適切な値です',
             'breaks.*.break_end.before_or_equal'    => '休憩時間が勤務時間外です',
 
-            // 備考未入力／文字数超過
+
             'comment.required' => '備考を記入してください',
             'comment.max'      => '備考は255文字以内で入力してください',
         ];

@@ -35,16 +35,16 @@ class AdminAttendanceEditTest extends TestCase
     {
         parent::setUp();
 
-        // テスト時刻を固定
+
         Carbon::setTestNow(Carbon::create(2025, 7, 20, 9, 0, 0));
 
-        // 管理者ユーザーを作成＆認証
+
         $this->admin = User::factory()->create([
             'role_id' => 1, // 管理者の role_id
         ]);
         $this->actingAs($this->admin, 'admin');
 
-        // テスト用勤怠レコードを作成
+
         $this->attendance = Attendance::factory()->create([
             'user_id'   => $this->admin->id,
             'work_date' => '2025-07-20',
@@ -52,7 +52,7 @@ class AdminAttendanceEditTest extends TestCase
             'clock_out' => '17:00:00',
             'comment'   => '初期コメント',
         ]);
-        // 既存の休憩レコード
+
         BreakTime::factory()->create([
             'attendance_id' => $this->attendance->id,
             'break_start'   => '12:00:00',
@@ -60,7 +60,7 @@ class AdminAttendanceEditTest extends TestCase
         ]);
     }
 
-    /** @test */
+    
     public function detail_page_shows_existing_data()
     {
         $res = $this->get(route('admin.attendances.show', $this->attendance));
@@ -72,7 +72,7 @@ class AdminAttendanceEditTest extends TestCase
             ->assertSee('初期コメント');
     }
 
-    /** @test */
+    
     public function cannot_set_clock_in_after_clock_out()
     {
         $res = $this->patch(route('admin.attendances.update', $this->attendance), [
@@ -86,7 +86,7 @@ class AdminAttendanceEditTest extends TestCase
         ]);
     }
 
-    /** @test */
+    
     public function cannot_set_break_start_after_clock_out()
     {
         $res = $this->patch(route('admin.attendances.update', $this->attendance), [
@@ -102,7 +102,7 @@ class AdminAttendanceEditTest extends TestCase
         ]);
     }
 
-    /** @test */
+    
     public function cannot_set_break_end_after_clock_out()
     {
         $res = $this->patch(route('admin.attendances.update', $this->attendance), [
@@ -118,7 +118,7 @@ class AdminAttendanceEditTest extends TestCase
         ]);
     }
 
-    /** @test */
+    
     public function comment_is_required()
     {
         $res = $this->patch(route('admin.attendances.update', $this->attendance), [
@@ -132,7 +132,7 @@ class AdminAttendanceEditTest extends TestCase
         ]);
     }
 
-    /** @test */
+    
     public function valid_data_updates_record_and_redirects()
     {
         $payload = [
@@ -146,12 +146,12 @@ class AdminAttendanceEditTest extends TestCase
 
         $res = $this->patch(route('admin.attendances.update', $this->attendance), $payload);
 
-        // index のクエリパラメータ付き URL を期待
+
         $res->assertRedirect(
             route('admin.attendances.index', ['date' => $this->attendance->work_date->toDateString()])
         );
 
-        // attendances テーブルは秒なしフォーマットで保存されるので秒なしで検証
+
         $this->assertDatabaseHas('attendances', [
             'id'        => $this->attendance->id,
             'clock_in'  => '08:30',
@@ -159,14 +159,14 @@ class AdminAttendanceEditTest extends TestCase
             'comment'   => '更新コメント',
         ]);
 
-        // 既存休憩レコード(12:00/13:00)は秒なしで Missing
+
         $this->assertDatabaseMissing('breaks', [
             'attendance_id' => $this->attendance->id,
             'break_start'   => '12:00',
             'break_end'     => '13:00',
         ]);
 
-        // 新規休憩レコードも秒なしで検証
+
         $this->assertDatabaseHas('breaks', [
             'attendance_id' => $this->attendance->id,
             'break_start'   => '12:30',

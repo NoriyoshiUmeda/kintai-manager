@@ -10,7 +10,7 @@
 @section('content')
 <div class="container">
     @php
-        // 今日の「YYYY-MM」
+
         $currentMonth = \Carbon\Carbon::today()->format('Y-m');
     @endphp
 
@@ -70,9 +70,9 @@
             </thead>
             <tbody>
                 @php
-                    // 0=日曜,1=月曜…6=土曜 のインデックスを漢字に変換する配列
+
                     $kanjiWeekdays = ['日','月','火','水','木','金','土'];
-                    // ループ用に月初日から取得
+
                     $current = $firstDayOfMonth->copy();
                 @endphp
 
@@ -82,7 +82,7 @@
                         $att = $attendances->get($key);
 
                         if ($att) {
-                            // 出勤／退勤時刻
+
                             $in  = $att->clock_in
                                 ? \Illuminate\Support\Carbon::parse($att->clock_in)->format('H:i')
                                 : '-';
@@ -90,7 +90,7 @@
                                 ? \Illuminate\Support\Carbon::parse($att->clock_out)->format('H:i')
                                 : '-';
 
-                            // 休憩合計（分）を算出
+
                             $breakTotal = $att->breaks->reduce(function($carry, $b) {
                                 if ($b->break_start && $b->break_end) {
                                     $start = \Illuminate\Support\Carbon::parse($b->break_start);
@@ -100,12 +100,12 @@
                                 return $carry;
                             }, 0);
 
-                            // 休憩時間（H:mm）表示
+
                             $breakDisplay = $breakTotal
                                 ? floor($breakTotal / 60) . ':' . sprintf('%02d', $breakTotal % 60)
                                 : '-';
 
-                            // 実働時間（分）の計算
+
                             if ($att->clock_in && $att->clock_out) {
                                 $inDT  = \Illuminate\Support\Carbon::parse($att->clock_in);
                                 $outDT = \Illuminate\Support\Carbon::parse($att->clock_out);
@@ -121,7 +121,7 @@
                             $workDisplay  = '';
                         }
 
-                        // 曜日を漢字で取得
+
                         $weekdayKanji = $kanjiWeekdays[$current->dayOfWeek];
                     @endphp
 

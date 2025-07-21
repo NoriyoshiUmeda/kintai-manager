@@ -17,7 +17,7 @@ class AttendanceDetailTest extends TestCase
     {
         parent::setUp();
 
-        // テスト時刻を固定 (2025-07-20 10:00:00)
+
         Carbon::setTestNow(Carbon::create(2025, 7, 20, 10, 0, 0));
     }
 
@@ -32,11 +32,11 @@ class AttendanceDetailTest extends TestCase
      */
     public function detail_page_shows_correct_info()
     {
-        // 1. ユーザー作成＆ログイン
+
         $user = User::factory()->create(['name' => 'テスト太郎']);
         $this->actingAs($user);
 
-        // 2. 勤怠レコードを作成
+
         $attendance = Attendance::create([
             'user_id'   => $user->id,
             'work_date' => '2025-07-20',
@@ -45,7 +45,7 @@ class AttendanceDetailTest extends TestCase
             'clock_out' => '18:45:00',
         ]);
 
-        // 3. 休憩レコードを複数作成
+
         BreakTime::create([
             'attendance_id' => $attendance->id,
             'break_start'   => '12:00:00',
@@ -57,7 +57,7 @@ class AttendanceDetailTest extends TestCase
             'break_end'     => '15:15:00',
         ]);
 
-        // 4. コントローラが渡す変数を再現
+
         $pendingRequest  = null;
         $approvedRequest = null;
         $breaks = $attendance->breaks->map(fn($b) => [
@@ -68,7 +68,7 @@ class AttendanceDetailTest extends TestCase
         $clockOut = $attendance->clock_out;
         $comment  = $attendance->comment;
 
-        // 5. 空のエラー情報を注入してビューをレンダリング
+
         $html = view('attendances.show', compact(
             'attendance',
             'pendingRequest',
@@ -81,7 +81,7 @@ class AttendanceDetailTest extends TestCase
         ->withErrors([])
         ->render();
 
-        // 6. 各表示を検証
+
         $this->assertStringContainsString('テスト太郎',   $html);  // 名前
         $this->assertStringContainsString('2025年',       $html);  // 年
         $this->assertStringContainsString('7月20日',     $html);  // 月日

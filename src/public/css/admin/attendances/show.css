@@ -1,77 +1,94 @@
 /*--------------------------------------------------------------
 リセット & 基本設定
 --------------------------------------------------------------*/
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-  }
-  html, body { height: 100%; }
-  body {
+}
+html,
+body {
+    height: 100%;
+}
+body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #333;
     background-color: #f2f2f2;
     line-height: 1.4;
-  }
-  a { text-decoration: none; color: inherit; }
-  button { font-family: inherit; cursor: pointer; border: none; background: none; }
-  
-  /*--------------------------------------------------------------
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+/*--------------------------------------------------------------
   コンテナ & レイアウト
   --------------------------------------------------------------*/
-  .container {
+.container {
     max-width: 900px;
     margin: 0 auto;
     padding: 2rem 1rem;
-  }
-  
-  /*--------------------------------------------------------------
+}
+
+/*--------------------------------------------------------------
   タイトル部分
   --------------------------------------------------------------*/
-  .detail-title {
+.detail-title {
     display: flex;
     align-items: center;
     margin-bottom: 2rem;
-  }
-  .detail-title-line {
+}
+.detail-title-line {
     width: 8px;
     height: 2rem;
     background: #000;
     margin-right: 0.75rem;
-  }
-  .detail-title-text {
+}
+.detail-title-text {
     font-size: 30px;
     font-weight: 700;
     color: #000;
-  }
-  
-  /*--------------------------------------------------------------
+}
+
+/*--------------------------------------------------------------
   カード枠
   --------------------------------------------------------------*/
-  .detail-card {
+.detail-card {
     background: #fff;
     border-radius: 10px;
     padding: 1.5rem;
     overflow: hidden;
-  }
-  .detail-card.readonly { padding-bottom: 3rem; }
-  
-  .detail-card .detail-table {
+}
+.detail-card.readonly {
+    padding-bottom: 3rem;
+}
+
+.detail-card .detail-table {
     width: calc(100% + 3rem);
     margin: 0 -1.5rem;
     border-collapse: collapse;
-  }
-  
-  /*--------------------------------------------------------------
+}
+
+/*--------------------------------------------------------------
   テーブル基本スタイル
   --------------------------------------------------------------*/
-  .detail-table {
-    width: 100%; border-collapse: collapse; table-layout: fixed;
-  }
-  .detail-table th,
-  .detail-table td {
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+.detail-table th,
+.detail-table td {
     width: 33.33%;
     padding: 0.75rem 1rem;
     font-size: 16px;
@@ -80,137 +97,138 @@
     border-bottom: 2px solid #e1e1e1;
     vertical-align: middle;
     letter-spacing: 0.15rem;
-  }
-  .detail-table th {
+}
+.detail-table th {
     text-align: left;
     color: #737373;
-  }
-  .value-cell { text-align: center; }
-  
-  /*「〜」マーク */
-  .tilde {
+}
+.value-cell {
+    text-align: center;
+}
+
+.tilde {
     margin: 0 0.5rem;
-    font-size: 16px; font-weight: 700;
-  }
-  
-  /*--------------------------------------------------------------
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/*--------------------------------------------------------------
   入力フィールド
   --------------------------------------------------------------*/
-  .time-input {
+.time-input {
     width: 100px;
     padding: 0.25rem 0.5rem;
-    font-size: 16px; font-weight: 700;
+    font-size: 16px;
+    font-weight: 700;
     text-align: center;
     border: 1px solid #e5e5e5;
     border-radius: 4px;
     background: #fff;
-  }
-  .comment-input {
-    width: 100%; height: 72px;
+}
+.comment-input {
+    width: 100%;
+    height: 72px;
     padding: 0.75rem;
-    font-size: 14px; font-weight: 700;
-    letter-spacing: 0.15rem; color: #000;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.15rem;
+    color: #000;
     border: 1px solid #d9d9d9;
     border-radius: 4px;
     resize: none;
-  }
-  
-  /* アイコン非表示 */
-  input[type="time"]::-webkit-calendar-picker-indicator,
-  input[type="time"]::-webkit-inner-spin-button,
-  input[type="time"]::-webkit-clear-button,
-  input[type="time"]::-moz-time-picker-indicator {
+}
+
+input[type='time']::-webkit-calendar-picker-indicator,
+input[type='time']::-webkit-inner-spin-button,
+input[type='time']::-webkit-clear-button,
+input[type='time']::-moz-time-picker-indicator {
     display: none;
     -webkit-appearance: none;
-  }
-  
-  /* バリデーションエラー */
-  .error-message { color: #ff0000; font-size: 14px; margin-top: 0.25rem; }
-  
-  /*--------------------------------------------------------------
+}
+
+.error-message {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 0.25rem;
+}
+
+/*--------------------------------------------------------------
   修正ボタン
   --------------------------------------------------------------*/
-  .button-wrapper { text-align: right; margin-top: 1.5rem; }
-  .btn-submit {
+.button-wrapper {
+    text-align: right;
+    margin-top: 1.5rem;
+}
+.btn-submit {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: #000; color: #fff;
+    background: #000;
+    color: #fff;
     padding: 0.75rem 1.5rem;
-    font-size: 16px; font-weight: 700;
+    font-size: 16px;
+    font-weight: 700;
     border-radius: 4px;
     transition: background-color 0.2s;
-  }
-
-  /* ボタン通常 */
-.btn-submit {
-  background-color: #000;
-  color: #fff;
-  /* 既存スタイル省略… */
 }
 
-/* disabled 状態（承認済み） */
+.btn-submit {
+    background-color: #000;
+    color: #fff;
+}
+
 .btn-submit:disabled,
 .btn-submit[disabled] {
-  background-color: #ccc;
-  cursor: not-allowed;
-  /* 必要に応じて文字色も調整 */
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
-
-  /*─────────────────────────────────────────
+/*─────────────────────────────────────────
    管理者用勤怠詳細画面：レスポンシブ対応
 ─────────────────────────────────────────*/
 
-/* 1. PC：幅 1400px〜1540px */
 @media screen and (min-width: 1400px) {
-  .container {
-    max-width: 1300px;     /* 少し余裕をもたせる */
-    padding: 2rem 2.5rem;
-  }
-  .detail-title-text {
-    font-size: 2.25rem;
-  }
-  .detail-card {
-    padding: 2rem;
-  }
-  .detail-table th,
-  .detail-table td {
-    padding: 1.5rem 2rem;
-  }
-  .time-input {
-    width: 140px;
-    font-size: 1rem;
-  }
-  .comment-input {
-    width: calc(100% - (25% + 4rem)); /* カラム幅調整 */
-    margin-left: calc(25% + 2rem);
-  }
-  .btn-submit {
-    width: 160px;
-    height: 60px;
-    font-size: 1.25rem;
-  }
+    .container {
+        max-width: 1300px;
+        padding: 2rem 2.5rem;
+    }
+    .detail-title-text {
+        font-size: 2.25rem;
+    }
+    .detail-card {
+        padding: 2rem;
+    }
+    .detail-table th,
+    .detail-table td {
+        padding: 1.5rem 2rem;
+    }
+    .time-input {
+        width: 140px;
+        font-size: 1rem;
+    }
+    .comment-input {
+        width: calc(100% - (25% + 4rem));
+        margin-left: calc(25% + 2rem);
+    }
+    .btn-submit {
+        width: 160px;
+        height: 60px;
+        font-size: 1.25rem;
+    }
 }
 
-/* 2. タブレット：幅 768px〜850px */
 @media screen and (min-width: 768px) and (max-width: 850px) {
-  /* ── 既存の tablet 用スタイルのあとに追記 ── */
+    .detail-card .detail-table {
+        width: 100% !important;
+        margin: 0 !important;
+    }
 
-  /* ── テーブルをコンテナ幅に収める ── */
-  .detail-card .detail-table {
-    width: 100% !important;
-    margin: 0 !important;
-  }
+    .detail-table {
+        table-layout: auto !important;
+    }
 
-  /* ── 固定レイアウトを解除 ── */
-  .detail-table {
-    table-layout: auto !important;
-  }
-
-  /* ── 余分なセルパディングをリセット ── */
-  .detail-table tr > td:nth-child(2),
-  .detail-table tr > td:nth-child(3) {
-    padding-right: 0 !important;
-  }
+    .detail-table tr > td:nth-child(2),
+    .detail-table tr > td:nth-child(3) {
+        padding-right: 0 !important;
+    }
 }

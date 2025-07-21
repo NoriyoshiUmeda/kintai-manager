@@ -15,7 +15,7 @@ class AttendanceListTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        // テスト中の「今日」を 2025‐07‐15 に固定
+
         Carbon::setTestNow(Carbon::create(2025, 7, 15, 10, 0, 0));
     }
 
@@ -27,7 +27,7 @@ class AttendanceListTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        // 前月・今月・翌月のデータを用意
+
         $june30  = '2025-06-30';
         $july10  = '2025-07-10';
         $august1 = '2025-08-01';
@@ -51,10 +51,10 @@ class AttendanceListTest extends TestCase
             'clock_out' => '17:15:00',
         ]);
 
-        // 日付フォーマットはビューに合わせて動的取得
+
         $fmt = fn(string $d) => Carbon::parse($d)->format('m/d');
 
-        // (1) デフォルト表示: 7月
+
         $resp = $this->get(route('attendances.index'));
         $resp->assertStatus(200)
              ->assertSee('2025年7月')
@@ -64,14 +64,14 @@ class AttendanceListTest extends TestCase
              ->assertDontSee($fmt($august1))
              ->assertSee(route('attendances.show', $july));
 
-        // (2) 前月ボタン: 6月 （日付セルのみチェック）
+
         $respPrev = $this->get(route('attendances.index', ['month' => '2025-06']));
         $respPrev->assertStatus(200)
                  ->assertSee('2025年6月')
                  ->assertSee($fmt($june30))   // 6/30 のセルは表示
                  ->assertDontSee($fmt($july10)); // 7/10 は消える
 
-        // (3) 翌月ボタン: 8月 （同様に日付セルのみチェック）
+
         $respNext = $this->get(route('attendances.index', ['month' => '2025-08']));
         $respNext->assertStatus(200)
                  ->assertSee('2025年8月')
