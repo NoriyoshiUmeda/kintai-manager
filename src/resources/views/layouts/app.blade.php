@@ -16,6 +16,7 @@
         </div>
 
         @auth
+        @if (auth()->user()->hasVerifiedEmail())
         <nav class="nav-links">
             @if (isset($todayStatus) && $todayStatus === 3)
                 <!-- 退勤後のリンク -->
@@ -37,6 +38,7 @@
                 @csrf
             </form>
         </nav>
+        @endif
         @endauth
     </header>
 

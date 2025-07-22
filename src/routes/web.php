@@ -4,21 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CorrectionRequestController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminAttendanceController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminUserAttendanceController;
 use App\Http\Controllers\Admin\AdminCorrectionRequestController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| ここにすべてのルーティングを定義します。
-|
-*/
 
 
 
@@ -33,13 +26,31 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])
 Route::post('/login', [AuthController::class, 'login'])
      ->name('login');
 
+     // 認証案内画面
+Route::get('/email/verify', function () {
+    return view('auth.verify-email'); 
+})->middleware('auth')->name('verification.notice');
+
+// 再送ボタン
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', '認証メールを再送しました！');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+// 認証リンククリック時
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill(); // 認証完了！
+    return redirect(''); 
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+
 Route::post('/logout', [AuthController::class, 'logout'])
      ->name('logout');
 
 
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     Route::get('/attendances/create', [AttendanceController::class, 'create'])
          ->name('attendances.create');
     Route::post('/attendances/create', [AttendanceController::class, 'store'])

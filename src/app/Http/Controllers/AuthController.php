@@ -36,7 +36,9 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('attendances.create');
+        $user->sendEmailVerificationNotification();
+
+        return redirect()->route('verification.notice');
     }
 
 
@@ -47,21 +49,28 @@ class AuthController extends Controller
 
 
     public function login(LoginRequest $request)
-    {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+{
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('attendances.create'));
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+
+        // 未認証ならメール認証画面、それ以外は intended()
+        if (!Auth::user()->hasVerifiedEmail()) {
+            return redirect()->route('verification.notice');
         }
 
-        return back()->withErrors([
-            'email' => 'ログイン情報が登録されていません',
-        ])->withInput();
+        // 認証済みなら intended（本来行きたかったページ or デフォルトページ）
+        return redirect()->route('attendances.create');
     }
+
+    return back()->withErrors([
+        'email' => 'ログイン情報が登録されていません',
+    ])->withInput();
+}
 
     public function logout(Request $request)
     {
