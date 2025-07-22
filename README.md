@@ -59,7 +59,8 @@ php artisan db:seed
 
 ## メール認証
 mailtrapというツールを使用しています。
-以下のリンクから会員登録をしてください。　
+以下のリンクから会員登録をしてください。
+
 https://mailtrap.io/
 
 メールボックスのIntegrationsから 「laravel 7.x and 8.x」を選択し、　
