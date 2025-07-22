@@ -20,13 +20,9 @@ class BreakFunctionTest extends TestCase
         Carbon::setTestNow(Carbon::create(2025, 7, 1, 9, 0, 0));
     }
 
-    /** @test
-     * 出勤中→休憩入ボタンが見え、押した後は休憩中バッジかつ休憩入ボタンは消える
-     */
-    public function break_start_button_and_status_change()
+    public function test_break_start_button_and_status_change()
     {
         $now = Carbon::now();
-
 
         $attendance = Attendance::make([
             'status' => Attendance::STATUS_IN_PROGRESS,
@@ -36,11 +32,8 @@ class BreakFunctionTest extends TestCase
             'currentDateTime' => $now,
         ])->render();
 
-
         $this->assertStringContainsString('>休憩入<', $html);
-
         $this->assertStringNotContainsString('>休憩戻<', $html);
-
 
         $attendance->status = Attendance::STATUS_ON_BREAK;
         $html2 = view('attendances.create', [
@@ -48,19 +41,13 @@ class BreakFunctionTest extends TestCase
             'currentDateTime' => $now,
         ])->render();
 
-
         $this->assertStringContainsString('<span class="status-badge">休憩中</span>', $html2);
-
         $this->assertStringNotContainsString('>休憩入<', $html2);
     }
 
-    /** @test
-     * 休憩中→休憩戻ボタンが見え、押した後は出勤中バッジかつ休憩戻ボタンは消える
-     */
-    public function break_end_button_and_status_change()
+    public function test_break_end_button_and_status_change()
     {
         $now = Carbon::now();
-
 
         $attendance = Attendance::make([
             'status' => Attendance::STATUS_ON_BREAK,
@@ -70,9 +57,7 @@ class BreakFunctionTest extends TestCase
             'currentDateTime' => $now,
         ])->render();
 
-
         $this->assertStringContainsString('>休憩戻<', $html);
-
 
         $attendance->status = Attendance::STATUS_IN_PROGRESS;
         $html2 = view('attendances.create', [
@@ -80,16 +65,11 @@ class BreakFunctionTest extends TestCase
             'currentDateTime' => $now,
         ])->render();
 
-
         $this->assertStringContainsString('<span class="status-badge">出勤中</span>', $html2);
-
         $this->assertStringNotContainsString('>休憩戻<', $html2);
     }
 
-    /** @test
-     * 休憩入→休憩戻 を何度やっても、ボタン表示が交互に正しく切り替わる
-     */
-    public function break_can_be_toggled_multiple_times()
+    public function test_break_can_be_toggled_multiple_times()
     {
         $now = Carbon::now();
         $sequence = [
@@ -112,10 +92,7 @@ class BreakFunctionTest extends TestCase
         }
     }
 
-    /** @test
-     * 勤怠一覧画面に休憩時刻・実働時間が正しく表示される
-     */
-    public function break_times_are_shown_in_attendance_list()
+    public function test_break_times_are_shown_in_attendance_list()
     {
         $user = User::factory()->create();
         $att  = Attendance::create([
@@ -125,7 +102,6 @@ class BreakFunctionTest extends TestCase
             'clock_in'  => '09:00:00',
             'clock_out' => '18:00:00',
         ]);
-
 
         BreakTime::create([
             'attendance_id' => $att->id,
@@ -140,7 +116,6 @@ class BreakFunctionTest extends TestCase
 
         $this->actingAs($user);
         $response = $this->get(route('attendances.index'));
-
 
         $response->assertSee('0:20');
         $response->assertSee('8:40');

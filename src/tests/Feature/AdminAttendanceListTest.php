@@ -32,9 +32,7 @@ class AdminAttendanceListTest extends TestCase
     {
         parent::setUp();
 
-
         Carbon::setTestNow(Carbon::create(2025, 7, 20, 9, 0, 0));
-
 
         $this->admin = User::factory()->create([
             'role_id' => 1, // 管理者の role_id
@@ -42,19 +40,16 @@ class AdminAttendanceListTest extends TestCase
         $this->actingAs($this->admin, 'admin');
     }
 
-    
-    public function index_displays_title_and_empty_table_for_today()
+    public function test_index_displays_title_and_empty_table_for_today()
     {
         $response = $this->get(route('admin.attendances.index'));
 
         $response->assertStatus(200)
                  ->assertSee('2025年7月20日の勤怠')
-
                  ->assertSee('<tr><td colspan="6"></td></tr>', false);
     }
 
-    
-    public function shows_specified_date_and_empty_table_when_query_parameter_passed()
+    public function test_shows_specified_date_and_empty_table_when_query_parameter_passed()
     {
         $response = $this->get(route('admin.attendances.index', ['date' => '2025-07-18']));
 
@@ -63,8 +58,7 @@ class AdminAttendanceListTest extends TestCase
                  ->assertSee('<tr><td colspan="6"></td></tr>', false);
     }
 
-    
-    public function previous_and_next_day_navigation_links_are_correct()
+    public function test_previous_and_next_day_navigation_links_are_correct()
     {
         $response = $this->get(route('admin.attendances.index'));
         $response->assertStatus(200);
@@ -72,15 +66,12 @@ class AdminAttendanceListTest extends TestCase
         $prevLink = route('admin.attendances.index', ['date' => '2025-07-19']);
         $nextLink = route('admin.attendances.index', ['date' => '2025-07-21']);
 
-
         $response->assertSee('href="' . $prevLink . '"', false)
                  ->assertSee('href="' . $nextLink . '"', false);
     }
 
-    
-    public function next_day_button_always_links_even_when_no_data_exists()
+    public function test_next_day_button_always_links_even_when_no_data_exists()
     {
-
         $response = $this->get(route('admin.attendances.index', ['date' => '2025-07-21']));
         $response->assertStatus(200);
 

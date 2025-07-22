@@ -14,11 +14,7 @@ class RegistrationTest extends TestCase
     protected $seed = true;
     protected $seeder = RoleSeeder::class;
 
-    /**
-     * @test
-     * 名前が未入力の場合、バリデーションエラーになる
-     */
-    public function name_is_required()
+    public function test_name_is_required()
     {
         $response = $this->post(route('register'), [
             'name'                  => '',
@@ -32,11 +28,7 @@ class RegistrationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     * メールアドレスが未入力の場合、バリデーションエラーになる
-     */
-    public function email_is_required()
+    public function test_email_is_required()
     {
         $response = $this->post(route('register'), [
             'name'                  => 'テストユーザー',
@@ -50,11 +42,7 @@ class RegistrationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     * パスワードが8文字未満の場合、バリデーションエラーになる
-     */
-    public function password_must_be_at_least_8_characters()
+    public function test_password_must_be_at_least_8_characters()
     {
         $response = $this->post(route('register'), [
             'name'                  => 'テストユーザー',
@@ -68,11 +56,7 @@ class RegistrationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     * 確認用パスワードと一致しない場合、バリデーションエラーになる
-     */
-    public function password_and_confirmation_must_match()
+    public function test_password_and_confirmation_must_match()
     {
         $response = $this->post(route('register'), [
             'name'                  => 'テストユーザー',
@@ -86,11 +70,7 @@ class RegistrationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     * 正しい入力の場合、ユーザーが作成されてログイン画面へリダイレクトされる
-     */
-    public function register_with_valid_data()
+    public function test_register_with_valid_data()
     {
         $response = $this->post(route('register'), [
             'name'                  => 'テストユーザー',
@@ -99,13 +79,11 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-
         $this->assertDatabaseHas('users', [
             'email' => 'user@example.com',
             'name'  => 'テストユーザー',
         ]);
 
-
-        $response->assertRedirect(route('attendances.create'));
+        $response->assertRedirect(route('verification.notice'));
     }
 }

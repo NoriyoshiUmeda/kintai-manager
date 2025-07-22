@@ -17,15 +17,11 @@ class StatusBadgeTest extends TestCase
     {
         parent::setUp();
 
-
         Carbon::setTestNow(Carbon::create(2025, 7, 1, 9, 0, 0));
-
-
         Model::unguard();
     }
 
-    
-    public function no_attendance_shows_勤務外()
+    public function test_no_attendance_shows_勤務外()
     {
         $user = User::factory()->create();
 
@@ -40,11 +36,9 @@ class StatusBadgeTest extends TestCase
         );
     }
 
-    
-    public function in_progress_attendance_shows_出勤中()
+    public function test_in_progress_attendance_shows_出勤中()
     {
         $user = User::factory()->create();
-
 
         $attendance = Attendance::create([
             'user_id'   => $user->id,
@@ -65,11 +59,9 @@ class StatusBadgeTest extends TestCase
         );
     }
 
-    
-    public function on_break_attendance_shows_休憩中()
+    public function test_on_break_attendance_shows_休憩中()
     {
         $user = User::factory()->create();
-
 
         $attendance = Attendance::create([
             'user_id'   => $user->id,
@@ -90,11 +82,9 @@ class StatusBadgeTest extends TestCase
         );
     }
 
-    
-    public function completed_attendance_shows_退勤済()
+    public function test_completed_attendance_shows_退勤済()
     {
         $user = User::factory()->create();
-
 
         $attendance = Attendance::create([
             'user_id'   => $user->id,

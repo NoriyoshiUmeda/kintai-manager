@@ -14,19 +14,7 @@ class AdminCorrectionRequestTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * RefreshDatabase 実行後にシーダーを走らせる
-     *
-     * @var bool
-     */
     protected $seed = true;
-
-    /**
-     * 実行するシーダークラス
-     *
-     * ※ファイル名／クラス名が RoleSeeder なのでこちらを指定
-     * @var string
-     */
     protected $seeder = \Database\Seeders\RoleSeeder::class;
 
     protected $admin;
@@ -38,15 +26,12 @@ class AdminCorrectionRequestTest extends TestCase
     {
         parent::setUp();
 
-
         Carbon::setTestNow(Carbon::create(2025, 7, 20, 9, 0, 0));
-
 
         $this->admin = User::factory()->create([
             'role_id' => 1,
         ]);
         $this->actingAs($this->admin, 'admin');
-
 
         $this->attendance = Attendance::factory()->create([
             'user_id'   => $this->admin->id,
@@ -56,13 +41,11 @@ class AdminCorrectionRequestTest extends TestCase
             'comment'   => '元コメント',
         ]);
 
-
         BreakTime::factory()->create([
             'attendance_id' => $this->attendance->id,
             'break_start'   => '12:00:00',
             'break_end'     => '13:00:00',
         ]);
-
 
         $this->pendingReq = CorrectionRequest::create([
             'attendance_id'    => $this->attendance->id,
@@ -75,7 +58,6 @@ class AdminCorrectionRequestTest extends TestCase
             'comment'          => '申請コメント1',
             'status'           => CorrectionRequest::STATUS_PENDING,
         ]);
-
 
         $this->approvedReq = CorrectionRequest::create([
             'attendance_id'    => $this->attendance->id,
@@ -90,8 +72,7 @@ class AdminCorrectionRequestTest extends TestCase
         ]);
     }
 
-    
-    public function index_shows_pending_and_approved_requests()
+    public function test_index_shows_pending_and_approved_requests()
     {
         $res = $this->get(route('admin.corrections.index'));
 
@@ -100,38 +81,30 @@ class AdminCorrectionRequestTest extends TestCase
             ->assertSeeText('申請コメント2'); // approved
     }
 
-    
-    public function show_displays_requested_data_not_actual_attendance()
+    public function test_show_displays_requested_data_not_actual_attendance()
     {
         $res = $this->get(route('admin.corrections.show', $this->pendingReq));
 
         $res->assertStatus(200)
-
             ->assertSee('08:00')
             ->assertSee('16:00')
-
             ->assertSee('12:30')
             ->assertSee('13:15')
-
             ->assertSee('申請コメント1')
-
             ->assertDontSee('09:00')
             ->assertDontSee('17:00');
     }
 
-    
-    public function approve_updates_status_and_attendance_data()
+    public function test_approve_updates_status_and_attendance_data()
     {
         $res = $this->patch(route('admin.corrections.approve', $this->pendingReq));
 
         $res->assertRedirect(route('admin.corrections.show', $this->pendingReq));
 
-
         $this->assertDatabaseHas('correction_requests', [
             'id'     => $this->pendingReq->id,
             'status' => CorrectionRequest::STATUS_APPROVED,
         ]);
-
 
         $this->assertDatabaseHas('attendances', [
             'id'        => $this->attendance->id,
@@ -139,7 +112,6 @@ class AdminCorrectionRequestTest extends TestCase
             'clock_out' => '16:00',
             'comment'   => '申請コメント1',
         ]);
-
 
         $this->assertDatabaseMissing('breaks', [
             'attendance_id' => $this->attendance->id,

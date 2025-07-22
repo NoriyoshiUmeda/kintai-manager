@@ -13,7 +13,6 @@ class AdminUserListTest extends TestCase
 {
     use RefreshDatabase;
 
-    
     protected $seed   = true;
     protected $seeder = RoleSeeder::class;
 
@@ -23,15 +22,12 @@ class AdminUserListTest extends TestCase
     {
         parent::setUp();
 
-
         $this->admin = User::factory()->create(['role_id' => 2]);
         $this->actingAs($this->admin, 'admin');
     }
 
-    
-    public function index_displays_all_regular_users_name_and_email()
+    public function test_index_displays_all_regular_users_name_and_email()
     {
-
         $userA = User::factory()->create([
             'role_id' => 1,
             'name'    => '一般太郎',
@@ -50,17 +46,14 @@ class AdminUserListTest extends TestCase
                  ->assertSeeText('taro@example.com')
                  ->assertSeeText('一般花子')
                  ->assertSeeText('hanako@example.com')
-
                  ->assertDontSeeText($this->admin->name);
     }
 
-    
-    public function clicking_detail_redirects_to_that_users_attendance_list()
+    public function test_clicking_detail_redirects_to_that_users_attendance_list()
     {
         $user = User::factory()->create(['role_id' => 1]);
 
         $response = $this->get(route('admin.users.index'));
-
 
         $detailUrl = route('admin.users.attendances.index', $user->id);
 
@@ -71,8 +64,7 @@ class AdminUserListTest extends TestCase
                ->assertSeeText($user->name . ' さんの勤怠一覧');
     }
 
-    
-    public function attendance_list_displays_only_selected_month_attendances()
+    public function test_attendance_list_displays_only_selected_month_attendances()
     {
         $user = User::factory()->create(['role_id' => 1]);
 
@@ -95,8 +87,7 @@ class AdminUserListTest extends TestCase
                  ->assertDontSeeText(Carbon::now()->addMonth()->format('m/d'));
     }
 
-    
-    public function prev_and_next_month_buttons_exist_and_link_correctly()
+    public function test_prev_and_next_month_buttons_exist_and_link_correctly()
     {
         $user = User::factory()->create(['role_id' => 1]);
 
@@ -109,19 +100,16 @@ class AdminUserListTest extends TestCase
             'month' => $base,
         ]));
 
-
         $prevUrl = route('admin.users.attendances.index', [
             'user'  => $user->id,
             'month' => $prev,
         ]);
         $response->assertSee("href=\"{$prevUrl}\"", false);
 
-
         $response->assertSee('disabled');
     }
 
-    
-    public function day_detail_button_redirects_to_daily_attendance_detail()
+    public function test_day_detail_button_redirects_to_daily_attendance_detail()
     {
         $user = User::factory()->create(['role_id' => 1]);
 
@@ -144,8 +132,7 @@ class AdminUserListTest extends TestCase
                ->assertSeeText('勤怠詳細');
     }
 
-    
-    public function csv_export_button_links_correctly()
+    public function test_csv_export_button_links_correctly()
     {
         $user = User::factory()->create(['role_id' => 1]);
 

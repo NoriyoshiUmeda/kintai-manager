@@ -22,11 +22,9 @@ class ClockInTest extends TestCase
         Model::unguard();
     }
 
-    
-    public function user_can_clock_in_once()
+    public function test_user_can_clock_in_once()
     {
         $user = User::factory()->create();
-
 
         $html = view('attendances.create', [
             'attendance' => null,
@@ -37,7 +35,6 @@ class ClockInTest extends TestCase
             $html
         );
 
-
         Attendance::create([
             'user_id'   => $user->id,
             'work_date' => Carbon::today()->toDateString(),
@@ -46,19 +43,16 @@ class ClockInTest extends TestCase
             'clock_out' => null,
         ]);
 
-
         $this->assertDatabaseHas('attendances', [
             'user_id' => $user->id,
             'status'  => Attendance::STATUS_IN_PROGRESS,
         ]);
-
 
         $attendance = Attendance::first();
         $html2 = view('attendances.create', [
             'attendance' => $attendance,
             'currentDateTime' => Carbon::now(),
         ])->render();
-
 
         $this->assertStringContainsString(
             '<span class="status-badge">出勤中</span>',
@@ -70,11 +64,9 @@ class ClockInTest extends TestCase
         );
     }
 
-    
-    public function cannot_clock_in_twice_in_one_day()
+    public function test_cannot_clock_in_twice_in_one_day()
     {
         $user = User::factory()->create();
-
 
         Attendance::create([
             'user_id'   => $user->id,
@@ -84,13 +76,11 @@ class ClockInTest extends TestCase
             'clock_out' => null,
         ]);
 
-
         $attendance = Attendance::first();
         $html = view('attendances.create', [
             'attendance' => $attendance,
             'currentDateTime' => Carbon::now(),
         ])->render();
-
 
         $this->assertStringNotContainsString(
             '<button type="submit" class="btn btn--primary">出勤</button>',
@@ -98,8 +88,7 @@ class ClockInTest extends TestCase
         );
     }
 
-    
-    public function admin_can_see_clock_in_time_in_index()
+    public function test_admin_can_see_clock_in_time_in_index()
     {
         $admin = User::factory()->create(['role_id' => 2]);
         $attendance = Attendance::create([
@@ -109,7 +98,6 @@ class ClockInTest extends TestCase
             'clock_in'  => '09:00:00',
             'clock_out' => null,
         ]);
-
 
         $html = view('admin.attendances.index', [
             'attendances' => collect([$attendance->load('user')]),

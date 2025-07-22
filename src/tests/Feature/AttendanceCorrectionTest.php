@@ -20,7 +20,6 @@ class AttendanceCorrectionTest extends TestCase
     {
         parent::setUp();
 
-
         $this->user = User::factory()->create();
         $this->attendance = Attendance::factory()->create([
             'user_id'   => $this->user->id,
@@ -31,12 +30,9 @@ class AttendanceCorrectionTest extends TestCase
             'comment'   => '通常コメント',
         ]);
         $this->actingAs($this->user, 'web');
-        
     }
-    
 
-    
-    public function clock_in_after_clock_out_shows_error()
+    public function test_clock_in_after_clock_out_shows_error()
     {
         $response = $this->patch(route('attendances.update', ['attendance' => $this->attendance->id]), [
             'clock_in'  => '18:00',
@@ -51,8 +47,7 @@ class AttendanceCorrectionTest extends TestCase
             ->assertSee('出勤時間もしくは退勤時間が不適切な値です');
     }
 
-    
-    public function break_start_after_clock_out_shows_error()
+    public function test_break_start_after_clock_out_shows_error()
     {
         $response = $this->patch(route('attendances.update', ['attendance' => $this->attendance->id]), [
             'clock_in'  => '09:00',
@@ -67,8 +62,7 @@ class AttendanceCorrectionTest extends TestCase
             ->assertSee('休憩時間が勤務時間外です');
     }
 
-    
-    public function break_end_after_clock_out_shows_error()
+    public function test_break_end_after_clock_out_shows_error()
     {
         $response = $this->patch(route('attendances.update', ['attendance' => $this->attendance->id]), [
             'clock_in'  => '09:00',
@@ -83,8 +77,7 @@ class AttendanceCorrectionTest extends TestCase
             ->assertSee('休憩時間が勤務時間外です');
     }
 
-    
-    public function comment_is_required()
+    public function test_comment_is_required()
     {
         $response = $this->patch(route('attendances.update', ['attendance' => $this->attendance->id]), [
             'clock_in'  => '09:00',
@@ -99,36 +92,33 @@ class AttendanceCorrectionTest extends TestCase
             ->assertSee('備考を記入してください');
     }
 
-    
-    public function correction_request_is_created()
-{
-    $data = [
-        'clock_in'  => '09:00',
-        'clock_out' => '16:30',
-        'breaks'    => [['break_start' => '12:00', 'break_end' => '12:30']],
-        'comment'   => 'テスト申請',
-    ];
-    $this->actingAs($this->user, 'web');
-    $response = $this->patch(route('attendances.update', ['attendance' => $this->attendance->id]), $data);
-    $response->assertRedirect();
+    public function test_correction_request_is_created()
+    {
+        $data = [
+            'clock_in'  => '09:00',
+            'clock_out' => '16:30',
+            'breaks'    => [['break_start' => '12:00', 'break_end' => '12:30']],
+            'comment'   => 'テスト申請',
+        ];
+        $this->actingAs($this->user, 'web');
+        $response = $this->patch(route('attendances.update', ['attendance' => $this->attendance->id]), $data);
+        $response->assertRedirect();
 
+        $date = $this->attendance->work_date instanceof \Carbon\Carbon
+            ? $this->attendance->work_date->format('Y-m-d')
+            : date('Y-m-d', strtotime($this->attendance->work_date));
 
-    $date = $this->attendance->work_date instanceof \Carbon\Carbon
-        ? $this->attendance->work_date->format('Y-m-d')
-        : date('Y-m-d', strtotime($this->attendance->work_date));
+        $this->assertDatabaseHas('correction_requests', [
+            'attendance_id' => $this->attendance->id,
+            'user_id'       => $this->user->id,
+            'requested_in'  => "{$date} 09:00:00",
+            'requested_out' => "{$date} 16:30:00",
+            'comment'       => 'テスト申請',
+            'status'        => CorrectionRequest::STATUS_PENDING,
+        ]);
+    }
 
-    $this->assertDatabaseHas('correction_requests', [
-        'attendance_id' => $this->attendance->id,
-        'user_id'       => $this->user->id,
-        'requested_in'  => "{$date} 09:00:00",
-        'requested_out' => "{$date} 16:30:00",
-        'comment'       => 'テスト申請',
-        'status'        => CorrectionRequest::STATUS_PENDING,
-    ]);
-}
-
-    
-    public function pending_correction_request_appears_in_list()
+    public function test_pending_correction_request_appears_in_list()
     {
         CorrectionRequest::factory()->create([
             'attendance_id' => $this->attendance->id,
@@ -142,8 +132,7 @@ class AttendanceCorrectionTest extends TestCase
             ->assertSee('承認待ちテスト');
     }
 
-    
-    public function approved_correction_request_appears_in_list()
+    public function test_approved_correction_request_appears_in_list()
     {
         CorrectionRequest::factory()->create([
             'attendance_id' => $this->attendance->id,
@@ -157,8 +146,7 @@ class AttendanceCorrectionTest extends TestCase
             ->assertSee('承認済みテスト');
     }
 
-    
-    public function can_show_correction_request_detail()
+    public function test_can_show_correction_request_detail()
     {
         $correction = CorrectionRequest::factory()->create([
             'attendance_id' => $this->attendance->id,

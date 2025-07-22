@@ -17,25 +17,13 @@ class AttendanceDetailTest extends TestCase
     {
         parent::setUp();
 
-
         Carbon::setTestNow(Carbon::create(2025, 7, 20, 10, 0, 0));
     }
 
-    /** @test
-     * 詳細画面に
-     *  - ログインユーザー名
-     *  - 年
-     *  - 月日
-     *  - 出勤・退勤時刻
-     *  - 休憩時刻
-     * が正しく表示される
-     */
-    public function detail_page_shows_correct_info()
+    public function test_detail_page_shows_correct_info()
     {
-
         $user = User::factory()->create(['name' => 'テスト太郎']);
         $this->actingAs($user);
-
 
         $attendance = Attendance::create([
             'user_id'   => $user->id,
@@ -44,7 +32,6 @@ class AttendanceDetailTest extends TestCase
             'clock_in'  => '09:15:00',
             'clock_out' => '18:45:00',
         ]);
-
 
         BreakTime::create([
             'attendance_id' => $attendance->id,
@@ -57,7 +44,6 @@ class AttendanceDetailTest extends TestCase
             'break_end'     => '15:15:00',
         ]);
 
-
         $pendingRequest  = null;
         $approvedRequest = null;
         $breaks = $attendance->breaks->map(fn($b) => [
@@ -67,7 +53,6 @@ class AttendanceDetailTest extends TestCase
         $clockIn  = $attendance->clock_in;
         $clockOut = $attendance->clock_out;
         $comment  = $attendance->comment;
-
 
         $html = view('attendances.show', compact(
             'attendance',
@@ -81,7 +66,6 @@ class AttendanceDetailTest extends TestCase
         ->withErrors([])
         ->render();
 
-
         $this->assertStringContainsString('テスト太郎',   $html);  // 名前
         $this->assertStringContainsString('2025年',       $html);  // 年
         $this->assertStringContainsString('7月20日',     $html);  // 月日
@@ -93,10 +77,7 @@ class AttendanceDetailTest extends TestCase
         $this->assertStringContainsString('15:15',        $html);  // 休憩2 終了
     }
 
-    /** @test
-     * 他ユーザーの勤怠詳細は 404 になる
-     */
-    public function cannot_view_other_users_attendance()
+    public function test_cannot_view_other_users_attendance()
     {
         $userA = User::factory()->create();
         $userB = User::factory()->create();

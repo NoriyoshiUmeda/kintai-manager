@@ -12,8 +12,7 @@ class EmailVerificationFlowTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function user_is_redirected_to_verify_email_after_register()
+    public function test_user_is_redirected_to_verify_email_after_register()
     {
         // 会員登録
         $response = $this->post('/register', [
@@ -31,8 +30,7 @@ class EmailVerificationFlowTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function unverified_user_is_redirected_to_verify_email_after_login()
+    public function test_unverified_user_is_redirected_to_verify_email_after_login()
     {
         // 未認証ユーザーを作成
         $user = User::factory()->create(['email_verified_at' => null, 'password' => bcrypt('password123')]);
@@ -45,8 +43,7 @@ class EmailVerificationFlowTest extends TestCase
         $response->assertRedirect(route('verification.notice')); // 認証案内画面へリダイレクト
     }
 
-    /** @test */
-    public function unverified_user_cannot_access_protected_routes()
+    public function test_unverified_user_cannot_access_protected_routes()
     {
         $user = User::factory()->create(['email_verified_at' => null]);
         $this->actingAs($user);
@@ -56,8 +53,7 @@ class EmailVerificationFlowTest extends TestCase
         $response->assertRedirect(route('verification.notice'));
     }
 
-    /** @test */
-    public function verification_email_can_be_resent()
+    public function test_verification_email_can_be_resent()
     {
         Notification::fake();
         $user = User::factory()->create(['email_verified_at' => null]);
@@ -69,8 +65,7 @@ class EmailVerificationFlowTest extends TestCase
         Notification::assertSentTo($user, VerifyEmail::class);
     }
 
-    /** @test */
-    public function verified_user_can_access_protected_routes()
+    public function test_verified_user_can_access_protected_routes()
     {
         $user = User::factory()->create(['email_verified_at' => now()]);
         $this->actingAs($user);

@@ -35,15 +35,12 @@ class AdminAttendanceEditTest extends TestCase
     {
         parent::setUp();
 
-
         Carbon::setTestNow(Carbon::create(2025, 7, 20, 9, 0, 0));
-
 
         $this->admin = User::factory()->create([
             'role_id' => 1, // 管理者の role_id
         ]);
         $this->actingAs($this->admin, 'admin');
-
 
         $this->attendance = Attendance::factory()->create([
             'user_id'   => $this->admin->id,
@@ -60,8 +57,7 @@ class AdminAttendanceEditTest extends TestCase
         ]);
     }
 
-    
-    public function detail_page_shows_existing_data()
+    public function test_detail_page_shows_existing_data()
     {
         $res = $this->get(route('admin.attendances.show', $this->attendance));
         $res->assertStatus(200)
@@ -72,8 +68,7 @@ class AdminAttendanceEditTest extends TestCase
             ->assertSee('初期コメント');
     }
 
-    
-    public function cannot_set_clock_in_after_clock_out()
+    public function test_cannot_set_clock_in_after_clock_out()
     {
         $res = $this->patch(route('admin.attendances.update', $this->attendance), [
             'clock_in'  => '18:00',
@@ -86,8 +81,7 @@ class AdminAttendanceEditTest extends TestCase
         ]);
     }
 
-    
-    public function cannot_set_break_start_after_clock_out()
+    public function test_cannot_set_break_start_after_clock_out()
     {
         $res = $this->patch(route('admin.attendances.update', $this->attendance), [
             'clock_in'  => '09:00',
@@ -102,8 +96,7 @@ class AdminAttendanceEditTest extends TestCase
         ]);
     }
 
-    
-    public function cannot_set_break_end_after_clock_out()
+    public function test_cannot_set_break_end_after_clock_out()
     {
         $res = $this->patch(route('admin.attendances.update', $this->attendance), [
             'clock_in'  => '09:00',
@@ -118,8 +111,7 @@ class AdminAttendanceEditTest extends TestCase
         ]);
     }
 
-    
-    public function comment_is_required()
+    public function test_comment_is_required()
     {
         $res = $this->patch(route('admin.attendances.update', $this->attendance), [
             'clock_in'  => '09:00',
@@ -132,8 +124,7 @@ class AdminAttendanceEditTest extends TestCase
         ]);
     }
 
-    
-    public function valid_data_updates_record_and_redirects()
+    public function test_valid_data_updates_record_and_redirects()
     {
         $payload = [
             'clock_in'  => '08:30',
@@ -146,11 +137,9 @@ class AdminAttendanceEditTest extends TestCase
 
         $res = $this->patch(route('admin.attendances.update', $this->attendance), $payload);
 
-
         $res->assertRedirect(
             route('admin.attendances.index', ['date' => $this->attendance->work_date->toDateString()])
         );
-
 
         $this->assertDatabaseHas('attendances', [
             'id'        => $this->attendance->id,
@@ -159,13 +148,11 @@ class AdminAttendanceEditTest extends TestCase
             'comment'   => '更新コメント',
         ]);
 
-
         $this->assertDatabaseMissing('breaks', [
             'attendance_id' => $this->attendance->id,
             'break_start'   => '12:00',
             'break_end'     => '13:00',
         ]);
-
 
         $this->assertDatabaseHas('breaks', [
             'attendance_id' => $this->attendance->id,
