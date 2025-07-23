@@ -35,13 +35,37 @@ class AdminAttendanceController extends Controller
      */
     public function show(Attendance $attendance)
     {
+    $attendance->load(['breaks', 'user']);
 
-        $attendance->load(['breaks', 'user']);
+    // 承認待ち申請を取得
+    $pendingRequest = $attendance->correctionRequests()
+        ->where('status', \App\Models\CorrectionRequest::STATUS_PENDING)
+        ->latest('id')
+        ->first();
 
-        return view('admin.attendances.show', [
-            'attendance' => $attendance,
-        ]);
+    // 承認済み申請を取得
+    $approvedRequest = $attendance->correctionRequests()
+        ->where('status', \App\Models\CorrectionRequest::STATUS_APPROVED)
+        ->latest('id')
+        ->first();
+
+    // フォーム用データも渡す（もしBladeで使うなら）
+    $breaks = $attendance->breaks;
+    $clockIn = $attendance->clock_in;
+    $clockOut = $attendance->clock_out;
+    $comment = $attendance->comment;
+
+    return view('admin.attendances.show', [
+        'attendance'      => $attendance,
+        'pendingRequest'  => $pendingRequest,
+        'approvedRequest' => $approvedRequest,
+        'breaks'          => $breaks,
+        'clockIn'         => $clockIn,
+        'clockOut'        => $clockOut,
+        'comment'         => $comment,
+    ]);
     }
+
 
     /**
      * 管理者用：勤怠情報更新処理
