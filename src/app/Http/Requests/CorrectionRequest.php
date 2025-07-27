@@ -11,15 +11,10 @@ class CorrectionRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        
         $attendance = $this->route('attendance');
-        
-
-
         if (is_numeric($attendance)) {
             $attendance = \App\Models\Attendance::find($attendance);
         }
-
         if (Auth::guard('admin')->check()) {
             return true;
         }
@@ -30,18 +25,10 @@ class CorrectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-
             'clock_in'  => ['required', 'date_format:H:i', 'before:clock_out'],
             'clock_out' => ['required', 'date_format:H:i', 'after:clock_in'],
-
-
             'breaks'                => ['array'],
-            'breaks.*.break_start'  => [
-                'nullable',
-                'date_format:H:i',
-                'after_or_equal:clock_in',
-                'before_or_equal:clock_out',
-            ],
+            'breaks.*.break_start'  => ['nullable', 'date_format:H:i', 'after_or_equal:clock_in', 'before_or_equal:clock_out'],
             'breaks.*.break_end'    => [
                 'nullable',
                 'date_format:H:i',
@@ -56,8 +43,6 @@ class CorrectionRequest extends FormRequest
                     }
                 }
             ],
-
-
             'comment' => ['required', 'string', 'max:255'],
         ];
     }
@@ -65,17 +50,14 @@ class CorrectionRequest extends FormRequest
     public function messages(): array
     {
         return [
-
+            'clock_in.required'      => '出勤時間・退勤時間を入力してください',
+            'clock_out.required'     => '出勤時間・退勤時間を入力してください',
             'clock_in.before'  => '出勤時間もしくは退勤時間が不適切な値です',
             'clock_out.after'  => '出勤時間もしくは退勤時間が不適切な値です',
-
-
             'breaks.*.break_start.after_or_equal'   => '休憩時間が勤務時間外です',
             'breaks.*.break_start.before_or_equal'  => '休憩時間が勤務時間外です',
             'breaks.*.break_end.after_or_equal'     => '休憩開始時間もしくは休憩終了時間が不適切な値です',
             'breaks.*.break_end.before_or_equal'    => '休憩時間が勤務時間外です',
-
-
             'comment.required' => '備考を記入してください',
             'comment.max'      => '備考は255文字以内で入力してください',
         ];
@@ -85,10 +67,12 @@ class CorrectionRequest extends FormRequest
     {
         $attendance = $this->route('attendance');
         $attendanceId = is_object($attendance) ? $attendance->id : $attendance;
-
+        $routeName = Auth::guard('admin')->check()
+            ? 'admin.attendances.show'
+            : 'attendances.show';
         throw new HttpResponseException(
             redirect()
-                ->route('attendances.show', ['attendance' => $attendanceId])
+                ->route($routeName, ['attendance' => $attendanceId])
                 ->withInput($this->input())
                 ->withErrors($validator->errors())
         );

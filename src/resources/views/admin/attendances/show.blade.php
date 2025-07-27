@@ -131,7 +131,9 @@
         @endforeach
         <tr>
           <th>備考</th>
-          <td class="remark-cell" colspan="2">{{ $attendance->comment }}</td>
+              <td class="remark-cell" colspan="2">
+                 {{ optional($pendingRequest)->comment /* または remarks */ ?? '—' }}
+              </td>
         </tr>
       </table>
     </div>
