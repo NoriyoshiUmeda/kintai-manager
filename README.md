@@ -107,7 +107,9 @@ Laravelのテストを実行するには `.env.testing` ファイルの準備が
 
 ```bash
 cp .env .env.testing
+
 その後、.env.testing の内容を以下のように修正してください：
+
 APP_ENV=testing
 DB_CONNECTION=sqlite
 DB_DATABASE=:memory:
