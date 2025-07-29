@@ -95,3 +95,24 @@ MAIL_FROM_ADDRESSは任意のメールアドレスを入力してください。
 
 - 開発環境： http://localhost/
 - phpMyAdmin: http://localhost:8080/
+
+
+## テスト実行方法
+
+Laravelのテストを実行するには `.env.testing` ファイルの準備が必要です。
+
+### ① `.env.testing` を作成
+
+プロジェクトルートで以下のコマンドを実行します。
+
+```bash
+cp .env .env.testing
+その後、.env.testing の内容を以下のように修正してください：
+APP_ENV=testing
+DB_CONNECTION=sqlite
+DB_DATABASE=:memory:
+
+SESSION_DRIVER=array
+CACHE_DRIVER=array
+
+
