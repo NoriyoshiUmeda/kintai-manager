@@ -92,7 +92,7 @@ class AdminUserAttendanceController extends Controller
             fwrite($handle, "\xEF\xBB\xBF");
 
 
-            fputcsv($handle, ['日付','出勤','退勤','休憩','実働時間','備考']);
+            fputcsv($handle, ['日付','出勤','退勤','休憩','合計','備考']);
 
             $kanjiWeekdays = ['日','月','火','水','木','金','土'];
             $current = $firstOfMonth->copy();
